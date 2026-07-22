@@ -1,0 +1,17 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT itemtype
+ENTITY itemtype
+TITLE Search for an ItemType
+PERPAGE 20
+FROM ItemTypes it 
+ LEFT JOIN ItemTypes itp ON it.ParentID = itp.GUID
+BROWSER SELECT it.GUID as guid,
+   IsUserFavourite(%(userid)s, it.GUID) AS Star,
+  it.Name AS `Item Type`,
+  itp.Name AS Parent
+ORDER Name, it.Name
+WHERE it.name LIKE %(search)s
+ OR itp.Name LIKE %(search)s
+FIELD Item Type, 6
+FIELD Parent, 5

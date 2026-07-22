@@ -1,0 +1,490 @@
+UPDATES FOR ONEMUSEUM
+---------------------
+
+OPEN PLAN OF TASKS  !=CURRENT, #=DONE **=PRIORITY FOR V1
+
+#  001 generic menu: TODO extend to other menus, check on mobiles
+#  002/DONE caching of the browser specs
+#  003 implement the AJAX for user favourites
+#  004 details for museums and Collections
+!! 005 more on starter page
+!! 006 about page
+#  007/DONE fix the forms for password reset and user profile
+#  008 set git tag
+#  The flask-Login timeout to 30 minutes 
+#  009 use the MySQL Users table
+# 010 create Session on login and logout
+!  011/ACTIVE select pilot museums and create introductory letter and guide
+!! 012 ETHER.CO.ZA articles
+** 013/ACTIVE MyEmma newsletter
+*2 014 OneMuseum ingestor
+*2 015 collect data from pilot museums
+#  016 FIX/DONE : Search string not saved for next page
+#  017/ACTIVE Finish all entity and category browsers using the genbrowser
+#  018 clean up the args for the browser and genbrowser
+#  019/DONE error handling for browsers - show results using flash as alert
+#  020 Implement Python Testing for the application
+#  021/DONE generic browsers using SDF files
+#  022/ACTIVE generic menus using SDF files
+*2 023/ACTIVE sdf templates
+*2 024: handling of menu cards for mobile devices - needs to ensure same user experience
+*2 025: admin interface: cache browser + ability to remove cache entry to force reloading
+*2 026: User Profile update
+#  027: User show all favourites
+*2 028: User create folders for favourites
+*2 029: For each class/category- show the entities which reference this (search by category item)
+*3 030: Change cache to shared cache such as Redis or memcached
+#  031: LetsEncrypt - set up SSL secure interface
+*2 032: MariaDB backup to OneDrive - only data which changes Users Sessions SessionData UserFavourites et.
+
+----------------------------------------------------------------------------------------------
+14: 09 JUL 2020
+
+ISSUES:
+
+- SessionData corrupted - may be because of closure during an ALTER TABLE to add keys
+- the result was that could not write to SessionData - said did not existed
+- but IDB file found
+- SOlution: https://stackoverflow.com/questions/15694168/error-tablespace-for-table-xxx-exists-please-discard-the-tablespace-before-imp
+- add another dummy FRM file
+- restart service
+- DROP TABLE SessionData
+- restart MariaDB service
+- recreate table
+
+DONE:
+- LetsEncrypt using the One-Museum.org domain 
+- using the win-acme simple client
+- very easy to use : the wacs.exe program
+- scrapped Python Anywhere - no ability to access MySQL interface from WorkBench
+- installed on RLA server as an initial version
+
+----------------------------------------------------------------------------------------------
+13: 14 JUN 2020
+
+TODO: 
+- install the SSL from Lets Encrypt
+
+
+LEARNINGS:
+- setting up the web.config for IIS
+- https://stackoverflow.com/questions/5072166/how-do-i-deploy-a-flask-application-in-iis
+- how to set the PYTHON PATH so that it finds the Packages
+- https://stackoverflow.com/questions/40091801/flask-app-on-iis-with-wfastcgi-virtualenv-package-not-found/40159326
+
+
+WORK DONE:
+- 003 : AJAX from the details forms to set reset favourites
+- 027 : show favourites and link back to the details Pages
+- installed on PythonAnywhere but problem with MySQL access using MySQL WorkBench
+- installed on the RLA Server
+
+
+----------------------------------------------------------------------------------------------
+12: 1 JUN 2020
+
+PLANS:
+- rework the menu page into groups LEARN DISCOVER FILTER MANAGE 
+- full Markdown POC done 
+- all of the HTML files for the online documenetation is working
+
+
+LEARNINGS:
+- Markdown - to handle all of the web page text to use for the support Pages
+- and later for the Stories, Biographies, Exhibitions, etc.
+- https://python-markdown.github.io/reference/#using-markdown-as-a-python-library
+- https://www.markdownguide.org/
+
+
+WORK DONE:
+- POC for markdown - must complete all of the examples
+
+----------------------------------------------------------------------------------------------
+11: 30 MAY 2020 - TAG V0.4
+
+NOTE:
+- have not kept these update notes as up to date as I should have
+- have been in hospital this week for a full knee replacement
+- now back to work
+- also have my Surface Pro 4 back, and am using a cooling fan to keep the battery cold
+- UNESCO article = 1 in 8 museums in the world may close permanently due to COVID-19
+
+LEARNINGS:
+- looking at PythonAnywhere as a hosting platform
+- but will probable push through the RLA server for now to get this done for breakpoint
+- 
+
+TODO: 
+- learning of Python Packages
+- using Microsoft Lists to control the work
+
+
+WORK DONE:
+- Finalised the generic Details Pages and works for all entities
+- Need to set up for Chenhall special details
+- split off the generic browser handling into function which can be called
+- set the entity browser to point to this
+- creating the categorylinks to point to this as well
+- major change to BROWSERS 
+    - added a FROM clause
+    - dropped the COUNT clause
+- changed all browsers to this new standard
+- linkages of the categories to show the entities which are linked to a category
+- CHECK - linkages from categories works
+- TODO: remove columns for categories in details
+- TODO: change session timeout
+- TODO: create Session data record
+- TODO: collect the SessionData for all user interactions
+- TODO: need friendly description of each user interaction
+- TODO: browser from previous user interactions + select and redo GETs (not POSTS)
+
+
+
+
+----------------------------------------------------------------------------------------------
+10: 17 MAY 2020
+
+LEARNINGS:
+- using Prepared Statements in MySQL to create runtime queries to execute
+
+
+WORK DONE:
+- created generic details route : /d/ENTITY/GUID
+- changed to the database to support better handling ot Categorizations
+- test data including Categorizations
+- special GetDetails procedure in MySQL for all entity types and GUIDs
+
+
+
+----------------------------------------------------------------------------------------------
+9 : 14 MAY 2020
+
+LEARNINGS:
+- many learnings in the past week and have not had time to write these notes
+- will have to try to remember these from the past commits
+
+- added a new custom filter in Jinja to support highlighting of search field in browser
+
+WORK DONE:
+- updating all of the browsers into the SDF format
+- separating out the ORDER BY clause and allowing for multiple order bys
+- separating out the WHERE clause and applying in the code to both COUNT and browser
+- using DBCONN instead of SQLAlchemy for all browser queries
+- creating a single show_browser /b/entity[/page] route, pointing to GenBrowserDB in dbUtils
+- cleaning out all other routes no longer needed
+- discovered bug in the page numbering - retains the page number when changing the search string
+    - so may try to open up page 3 for search which only creates 1 page of results
+- solved by passing page numbers as a URL parameter
+- resizing the images to be smaller - takes too long to load
+- changed to color background on tiles for now.
+- corrected the problem of search highlighting using custom files in Jinja
+    - now highlights ALL combinations of the same string
+- updated Chenhall to use the show_browser
+
+
+----------------------------------------------------------------------------------------------
+8: 5 MAY 2020
+
+LEARNINGS:
+- struggled to get the pytest working - was complaining that could not find the modules from my import
+- statements in the tests
+
+- found this article: https://stackoverflow.com/questions/10253826/path-issue-with-pytest-importerror-no-module-named-yadayadayada
+- which states that the path to the application is not found automatically
+- and that the following code needs to be placed at the top of each test file to add the application to the PATH env variable
+    import sys, os
+    myPath = os.path.dirname(os.path.abspath(__file__))
+    sys.path.insert(0, myPath + '/../')
+- added this and it works
+- Setting up Azure App, but unable to load the demo system for Hello World
+
+
+
+WORK DONE:
+- installed pytest and created the first test on cache.py - all methods
+
+
+
+----------------------------------------------------------------------------------------------
+7: 1 MAY 2020
+
+LEARNINGS:
+- trim a line of spaces in Python
+    - strip() : left and right
+    - lstript() : left only
+    - rstrip() : right only
+- shortcut keys
+    - EXPLORER: F3 - move to search window
+    - EXPLORER IMAGE: option - open right click window
+    - EXPLORER IMAGE: option+h - open with...
+    - PAINT.NET: CTRL+R: resize IMAGE
+    - PAINT.NET: SHIFT+CTRL+R: resize canvas
+    - PAINT.NET: CTRL+S save, CTRL+W closes
+    - current window: WIN+DOWN, minimise, WIN+UP, maximise/restore
+- render-template-string: to render a template from a string
+    - can be used for text files to be loaded as templates and cached
+- handling url targets with parameters:
+    url_for('entities.runbrowser', entity='museums')
+    https://stackoverflow.com/questions/52502675/flask-url-for-with-arguments
+- getting back delete files after commit and push
+    - i opened up github and found the last commit where these existed
+    - looked for the folders where these files were found
+    - then opened each and downloaded one at a time and then copied back into current branch
+
+
+
+WORK DONE:
+
+- sdf form for menus
+- implenenting this in main.home
+- encoding of main menu into mainmenu.sdf
+- reworking the folders under static:
+    - specs
+        /menus
+        /browsers
+        /schemas 
+- resized all of the images used to 1440x960 and will work with this aspct ration for all the cards
+- fixed css so that images show well on computers and mobile
+- updated the cards to add another element to include the target url argument (e.g. museums/ collections)
+
+
+
+    
+
+----------------------------------------------------------------------------------------------
+7: 29 APR 2020
+
+LEARNINGS:
+
+- setting up a cache
+    - see cache.py
+    - add
+    - get
+    - remove - must use pop and not deleted
+    - get_all
+- more about management of dictionaries
+- access to elements of tuples using []
+- str.format(search=search) does not work to replace variables
+    - must use str.format(search=MySearch) - names to be different
+    - however does work for: countSQL = spec['countSQL'].format(where=where)
+    - this is an alternative to f-strings which only work for literal strings
+    - and not stringe read in from files (such as the SDF file for the browser)
+- cannot access functions with arguments in url_for
+    - such as entities.runbrowser('museums')
+- lines = fi.readlines() - reads in all lines from a file at same time
+- then can use: for line in lines:
+- append a tuple to a list
+    - commands.append(tuple((a, b, c)))
+    - cannot just append (a, b, c) - mmust use tuple( )
+- add element to dictionary:
+    - dict.update(entity=data) will add "data": data
+- get tuple from list of tuples:
+    - for linefrom, lineto, commandnum, command, data in commands:
+- convert string to integer - also works if already integer
+    - page_size = int(page_size)
+- HTML keyboard shortcuts
+    - accesskey="n" - then can use ALT+name
+    - only works for letters
+- return tuple from function
+    - return (search, where, reset_page)
+    - search, where, resetpage = handle_search_where(sessvar, spec['where'])
+- access to elements of a dict:
+    - dict['key'] 
+- exception handling: such as for SQL calls
+    try:
+        c, = conn.execute(s)
+        (count,) = c
+    except Exception as e:
+        flash(f"Exception (Count SQL): {e.orig.args[1]}", 'danger')
+
+WORK DONE
+
+- implemented the sdf_loader in sdfutils.py
+    - to allows for the readong of the sdf documents
+    - which is then called by the specific SDF processors
+- implemented the sdf_browser in sdfutils.py
+    - for the creation of browser specifications from sdf files
+    - and moving into the cache
+- 002 Caching - placed into cache.py
+    - implemented in the sdfutils.py
+    - for sdf_browser specifications
+
+
+----------------------------------------------------------------------------------------------
+6: 27 APR 2020
+
+LEARNINGS:
+
+- output to JSON using jsonify - see main.typeahead
+- this to be used for typeahead dropdown lists such as Museums, Chenhall, etc.
+- git file history: right click on file in tab and select file history
+    - then can examine all prior versions to select code which may
+    - have been deleted
+    
+- some useful shortcuts: https://zellwk.com/blog/useful-vscode-keyboard-shortcuts/
+
+WORK DONE:
+
+- created typeahead in main for Chenhall - to be used for the dropdowns
+- adding utils in entities (move to utils.py later)
+    - handle_search
+    - handle_where
+    - handle_search_where
+- fixed up browsers to be cleaner and with less duplication
+    - Museums
+    - Collections
+    
+
+----------------------------------------------------------------------------------------------
+5: 25 APR 2020
+
+LEARNINGS:
+
+- flask8: how to remove specific lint checks - placed in settings.json
+    http://flake8.pycqa.org/en/latest/user/violations.html
+- session: adding, accessing, and removing variables for the search variable
+    https://flask.palletsprojects.com/en/1.1.x/quickstart/#sessions
+- search in browser: how best to handle search and resetting page to 0 then search changes
+
+WORK DONE:
+
+- fixed the search in Museums
+
+----------------------------------------------------------------------------------------------
+4: 23 APR 2020
+
+LEARNINGS:
+- changing pylint settings to ignore errors of lines > 79
+- and spaces around arithmetic operators
+- and comments which have non-standard indentation (my own standard)
+https://code.visualstudio.com/docs/python/linting
+
+
+
+WORK DONE:
+- user favourites in SQL procedures 
+- user favourites in genbrowser with click
+
+----------------------------------------------------------------------------------------------
+3: 22 APR 2020 
+
+LEARNINGS:
+- Bootstrap 4 grid structures: https://getbootstrap.com/docs/4.0/layout/grid/
+- fixed column sizes using d-flex class in TR
+- When stop program at breakpoint, can type in variable into Debug Console
+  and can then inspect this variable - no matter how complex
+- Python: extract elements from tuple
+- Python: range(1,5) and list(range(1,5))
+
+WORK DONE:
+- exhibitions browser
+- fixed columns for Museums and Collections browsers
+- moved the browser header into a macro
+- created generic browser HTML and applied to Collections browser
+
+
+----------------------------------------------------------------------------------------------
+2: 19-22 APR 2020
+
+LEARNINGS:
+
+- # include
+- adding search forms to the browsers
+- using the launch.json in .vscode to store ENV variables such as conn strings
+- git merge
+- correcting git issues when new files not committed - must commit before fetch/push
+
+
+WORK DONE:
+
+- cleaning up the whole user interface and forms
+- added icons
+- created a PROJECT in GitHub to manage the change tasks
+- removed Custodians, and added ParentID to Museums
+- changes Museum Types to accommodate wider range of institutions
+- added Countries, added CountryID to NamedPlaces
+- added new Entities: Biographies, MuseumEvents, Experts
+- added Chenhall vocabulary to database
+- new templates for headers and jsincludes
+- changed all {% %} to the # format 
+- search capability in museums
+
+TODO:
+
+- forgot password form
+- vocabularies menu
+- Chenhall browser - nonstandard
+- search form on browser is not working
+- generalise the menu structures
+- generalise search for all browsers
+
+----------------------------------------------------------------------------------------------
+1: 18 APR 2020
+
+LEARNINGS:
+
+- CTRL+B : opens and closes the left window
+- CTRL+J : opens and closes the TERMINAL
+- Can set keys for functions:
+    CTRK+K, CTRL+S opens key mapper
+    Select Terminal: Clear (unassigned)
+    Set this to CTRL+K
+    Set scope to terminalFocus
+    Now can use CTRL+K while in terminal window to clear it
+- Macros: can be created to reuse snippets of code
+- setting Jinja line statement character to # - simplifies coding
+
+
+WORK DONE:
+
+- in app.py set the jinja2 line statement character to # and line comment to ##
+    - this means that {%  %} can be replaced by just initial # in HTLM templates
+
+app.jinja_env.line_statement_prefix = '#'
+app.jinja_env.line_comment_prefix = '##'
+
+- added macros.html template to hold all macros
+- created macro navitem for the menu items on starter and layout
+- created macro menucard for the menus
+- renamed register to signup
+- reworked the Now UI Kit Pro nav sections, since it was not working for smaller screens
+    - now shows the drop down menu on smaller screens
+- changed configy.py to use os.environ.get(NAME) rather than hard-coding
+- the environment variables are stored in launch.json which is in .vscode folder which is NOT in git (purposely)
+    - need to create the launch.json / or update it as follows:
+    - change YOURUSER to the dtabase user e.g. root 
+    - change YOURPASSWORD to your database password 
+    - change YOURPORT to 3306 MySQL ot 3316 MariaDB 
+
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Flask",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "app.py",
+                "FLASK_ENV": "development",
+                "FLASK_DEBUG": "0",
+                "SECRET_KEY": "4a2c5fc6fdaee4d9beb6e3cbfa5dfc69",
+                "TEST_VAR":"123",
+                "MAIL_SERVER":"smtp.googlemail.com",
+                "MAIL_USERNAME":"rogerdlayton",
+                "MAIL_PASSWORD":"Rla.12345!"
+            
+
+            },
+            "args": [
+                "run",
+                "--no-debugger",
+                "--no-reload"
+            ],
+            "jinja": true
+        }
+    ]
+}

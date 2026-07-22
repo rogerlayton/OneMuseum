@@ -1,0 +1,56 @@
+# import 'macros.html' as macros
+# extends "layout.html"
+# block content
+    {{ macros.browserheader(title, page, search) }}
+    # set entity_proc = 'entities.runbrowser' 
+    {{ macros.pagination2(page, maxpage, pagelist, entity_proc, entity) }}
+
+    <table class="table table-hover">
+        <thead>
+            <tr class="d-flex">
+                {# set up the column headers #}
+                # for field in fields
+                    <th class="col-{{ field.cols }}">{{ field.name }}</th>
+                # endfor
+                <th class="col-1"><img src="{{ url_for('static', filename='img/staryellow.png') }}"  style="width:24px; height:24px" /></th>
+            </tr>
+        </thead>
+        <tbody>
+            # for row in data
+                <tr onclick="window.location='/{{ object }}/{{row.guid}}'" 
+                    class="d-flex"
+                    style="cursor:pointer">
+                    {# set up the cell values #}
+                    # for field in fields
+                        # set cell = row[field.name]
+                        # if search == ""
+                            <td class="col-{{ field.cols }}">
+                                {{ cell|replace("None","") }}
+                            </td>
+                        # else
+                            <td class="col-{{ field.cols }}">
+                                {{ cell|replace("None","")|replace(search, "<b>"|safe + search + "</b>"|safe) }}
+                            </td>
+                        # endif
+                    # endfor
+                    # if row['Star'] == 1
+                        <td class="col-1">
+                            <a href="/notyet?title=UNSET as favourite" style="cursor: copy">
+                                <img src="{{ url_for('static', filename='img/staryellow.png') }}" style="width:24px; height:24px" />
+                            </a>
+                        </th>
+                        # else
+                        <td class="col-1">
+                            <a href="/notyet?title=SET as favourite" style="cursor: copy">
+                                <img src="{{ url_for('static', filename='img/starempty.png') }}" style="width:24px; height:24px" />
+                            </a>
+                        </th>
+                    # endif
+                    </tr>
+            # endfor
+        </tbody>
+    </table>
+
+    {{ macros.pagination2(page, maxpage, pagelist, entity_proc, entity) }}
+
+# endblock content

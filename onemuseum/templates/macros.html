@@ -1,0 +1,183 @@
+{# ----------------------------------------------------------------------------------
+
+MACROS FOR THE ONEMUSEUM APPLICATION
+
+Each of these macros provides a function to produce commonly used HTML snippets
+with parameters
+
+Then can used the argument values and also context values from their environment
+
+Using:
+
+(HASH) import 'macros.html' as macros
+
+{ macroname(args, ...) [with context] }}
+
+------------------------------------------------------------------------------------ #}
+
+# macro navitem(url, title, icon)
+  <li class="nav-item">
+    <a href="{{url_for(url)}}" class="nav-link">
+      <i class="now-ui-icons icon {{icon}}"></i>
+      <p>{{title}}</p>
+    </a>
+  </li>
+# endmacro
+
+
+# macro home_nav(title, active = '')
+<li class="nav-item">
+  <a class="nav-link {{ active }} OM-nav-item" data-toggle="tab" href="#TAB_{{ title }}" role="tablist">
+    {{ title }}
+  </a>
+</li>
+# endmacro
+
+# macro home_nav_item(name, description, function, entity = '')
+<div class="row OM-nav-item">
+  <div class="col-md-6 col-lg-4 ">
+      # if entity == ''
+        <a href="{{ url_for(function) }}" class="OM-nav-item text-capitalize">
+      # else
+        <a href="{{ url_for(function, entity=entity) }}" class="OM-nav-item text-capitalize">
+      # endif
+          {{ name }}
+      </a>
+  </div>
+  <div class="col-md-6 col-lg-8" >
+    <span class="align-middle">{{ description }}</span>
+  </div>
+</div> 
+# endmacro
+
+# macro menucard(card)
+  <div class="col-lg-3 col-md-4 col-sm-6">
+    <div class="card bg-dark text-white OneMuseum-bg-color" style="cursor:pointer">
+      <img class="card-img" src="{{ url_for('static', filename='') }}{{ card.folder | default('assets/img')}}/{{ card.img }}" alt="Card image">
+      <div class="card-img-overlay">
+        <h4 class="card-title">{{ card.title }}</h4>
+        {# <p class="card-text">{{ card.text }}</p> #}
+        # set url = card.target 
+            {# this will be true if targetarg1 == None #}
+        # if card.targetarg1 is defined
+        <a href="{{ url_for(url, entity=card.targetarg1) }}" class="stretched-link"></a>
+        # else
+        <a href="{{ url_for(url) }}" class="stretched-link"></a>
+        # endif
+      </div>
+    </div>
+  </div>
+# endmacro
+
+# macro menucard2()
+<div class="card">
+    <div class="card-body">
+      <h6 class="category text-danger">
+        <i class="now-ui-icons media-2_sound-wave"></i> Trending
+      </h6>
+      <h5 class="card-title">
+        <a href="#pablo">Here Be Dragons</a>
+      </h5>
+      <p class="card-description">
+        An immersive production studio focused on virtual reality content, has closed a $10 million Series A round led by Discovery Communications
+      </p>
+      <div class="card-footer">
+        <div class="author">
+          <img src="assets/img/olivia.jpg" alt="..." class="avatar img-raised">
+          <span>Lord Alex</span>
+        </div>
+        <div class="stats stats-right">
+          <i class="now-ui-icons ui-2_favourite-28"></i> 342 ·
+          <i class="now-ui-icons files_single-copy-04"></i> 45
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+# endmacro
+
+# macro pagination(page, max_page, page_list, url)
+  # if page_list != [1]
+    # set this_url = url
+    <div class="text-center">
+      # if page > 1
+          <a class="btn btn-dark mb-4" href="{{ url_for(this_url, p=page-1) }}">&lt;</a>
+      # endif
+      # for page_num in page_list
+          # if page_num > 0
+              # if page == page_num
+                  <a class="btn btn-info mb-4" href="{{ url_for(this_url, p=page_num) }}">{{ page_num }}</a>
+              # else
+                  <a class="btn btn-outline-info mb-4" href="{{ url_for(this_url, p=page_num) }}">{{ page_num }}</a>
+              # endif
+          # else
+          ...
+          # endif
+      # endfor
+          # if page < max_page
+          <a class="btn btn-dark mb-4" href="{{ url_for(this_url, p=page+1) }}">&gt;</a>
+      # endif
+    </div>
+  # endif
+# endmacro
+
+# macro pagination2(page, max_page, page_list, url, entity)
+  # if page_list != [1]
+    # set this_url = url
+    <div class="text-center">
+      # if page > 1
+          <a class="btn btn-dark mb-4" accesskey="p" href="/b/{{ entity }}/{{ page-1 }}">&lt;</a>
+      # endif
+      # for page_num in page_list
+          # if page_num > 0
+              # if page == page_num
+                  <a class="btn btn-info mb-4" href="/b/{{ entity }}/{{ page_num }}">{{ page_num }}</a>
+              # else
+                  <a class="btn btn-outline-info mb-4" href="/b/{{ entity }}/{{ page_num }}">{{ page_num }}</a>
+              # endif
+          # else
+          ...
+          # endif
+      # endfor
+          # if page < max_page
+          <a class="btn btn-dark mb-4" accesskey="n" href="/b/{{ entity }}/{{ page+1 }}">&gt;</a>
+      # endif
+    </div>
+  # endif
+# endmacro
+
+
+# macro browserheader(title, page=1, search='')
+  <div class="row">
+    <div class="col-md-6">
+    <h3 class="title mt-0">{{ title }}</h3>
+        <p class="description">
+            Page: {{ page }}<br />Search: {{search}}
+        </p>
+    </div>
+    <div class="col-md-6">
+    <div class="card card-plain card-form-horizontal noborder">
+        <div class="card-body">
+        <form method="POST" action="">
+            {{ form.csrf_token }}
+            {{ form.hidden_tag() }}
+            <div class="row">
+            <div class="col-8">
+                <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="now-ui-icons ui-1_zoom-bold"></i></span>
+                </div>
+                <input type="text" accesskey="s" class="form-control" id="q" name="q" placeholder="search..." value="{{ search }}">
+                </div>
+            </div>
+            <div class="col-3 offset-1">
+                <input type="submit" class="btn btn-primary btn-round btn-block" value="Search">
+            </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+  </div>
+# endmacro

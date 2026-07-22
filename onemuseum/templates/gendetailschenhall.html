@@ -1,0 +1,76 @@
+# import 'macros.html' as macros
+# extends "layout.html"
+# block content
+
+    # set ancestors = results[0]
+
+    <div class='container'>
+
+        <h2> Chenhall Nomenclature Navigator</h2>
+
+        <p>We are aware of the error in running this query and are working on it. RL 2021-06-29</p>
+
+        # for ancestor in ancestors
+        <div class='row' style="margin-left:0; margin-right:0;">
+            <span class="OM-CH-Level OM-CH-Level{{ ancestor.Level }}">
+                <a href="{{ url_for('entities.show_details', entity='chenhall', guid=ancestor.ID) }}">
+                     {{ ancestor.get('Name') }}</a>
+                # if ancestor.get('Level') != 0
+                    <span class="OM-CH-RecordType"> {{ ancestor.RecordType }}</span>
+                # endif
+            </span>
+        </div>
+        # endfor
+
+        # if results[1] != []
+            # set current = results[1][0] 
+
+        <div class='row'>
+            <div class='col OM-CH-Current'>
+                {{ current.Name }}
+                <span class="OM-CH-RecordType"> {{ current.RecordType }}</span>
+                # if current.Description is not none
+                    <div class='OM-CH-CurrentDescription'>{{ current.Description }}</div>
+                # endif
+                # if current.NonPreferredTerm is not none
+                    <div class='OM-CH-CurrentData'>non-preferred term: {{ current.NonPreferredTerm }}</div>
+                # endif
+                # if current.OtherDesigParks is not none
+                    <div class='OM-CH-CurrentData'>other terms used: {{ current.OtherDesigParks }}</div>
+                # endif
+                # if current.DoNotConfuseWith is not none
+                    <div class='OM-CH-CurrentData'>do not confuse with: {{ current.DoNotConfuseWith }}</div>
+                # endif
+                # if current.Notes is not none
+                    <div class='OM-CH-CurrentDescription'>{{ current.Notes }}</div>
+                # endif
+            </div>
+            # if current.Image_URL is not none
+            <div class='col-3 OM-CH-Current'>
+                <img src='{{ current.Image_URL }}' style="max-width: 100px; max-height: 100px;"/>
+            </div>
+            # endif
+        </div>
+
+        # endif
+
+        # if results[2] != []
+            <div class='row'>
+                <div class='OM-CH-ChildTerms'>
+                # for child in results[2]
+                    # set guid = child.ID
+                    <div class='OM-CH-Child'>
+                        <span style='font-size:larger; font-weight:bold'>>> </span> 
+                        <a  href="{{ url_for('entities.show_details', entity='chenhall', guid=guid) }}">
+                            {{ child.Name }}
+                        </a>                       
+                        <span class="OM-CH-RecordType"> {{ child.RecordType }}</span>
+                    </div>
+                # endfor
+                </div>
+            </div>
+        # endif
+    </div>
+
+
+# endblock content

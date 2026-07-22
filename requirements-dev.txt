@@ -1,0 +1,27 @@
+# OneMuseum development requirements.
+# Install on top of runtime: pip install -r requirements.txt -r requirements-dev.txt
+# These are NOT needed in the production/container image.
+
+-r requirements.txt
+
+# Testing
+pytest==7.2.0
+pytest-flask==1.2.0
+
+# Linting / static analysis
+flake8==6.0.0
+pycodestyle==2.10.0
+pyflakes==3.0.1
+pylint==2.15.8
+astroid==2.12.13
+isort==5.11.2
+mccabe==0.7.0
+
+# Notebook / interactive (dev convenience only)
+ipython==8.7.0
+ipykernel==5.3.4
+jupyter_client==8.9.1
+jupyter_core==5.9.1
+
+# Windows-only — will NOT install on Linux; kept out of runtime deliberately.
+# pywin32==312   ; sys_platform == "win32"

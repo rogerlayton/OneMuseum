@@ -1,0 +1,31 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT categorylink
+ENTITY categorylinks
+TITLE What is linked to this Category
+PERPAGE 20
+FROM Categorizations c
+    CROSS JOIN Users u
+    LEFT JOIN EntityNames en ON c.RefGUID = en.GUID
+BROWSER SELECT c.RefGUID as guid,
+   IsUserFavourite('%(userid)s', c.GUID) AS Star,
+    JoinStrings(c.CategoryValue, c.CategoryValueExt) AS Name,
+    en.ETName AS ETName,
+    en.ETName AS Type,
+    en.EntityName AS Name,
+    c.CategoryValueID AS CategoryValueID,
+    DateDescription, DateMin, DateMax,
+    Location,
+    Priority
+!D |
+ORDER Name| en.ETName, JoinStrings(c.CategoryValue, c.CategoryValueExt) 
+!D
+WHEREFIXED
+  c.CategoryValueID = %(categoryid)s AND
+  u.GUID = %(userid)s
+WHERE
+  e.EntityName LIKE %(search)s
+   OR JoinStrings(c.CategoryValue, c.CategoryValueExt) LIKE %(search)s
+FIELD Type, 3
+FIELD Name, 6
+FIELD Priority, 2

@@ -1,0 +1,18 @@
+#SDF#1
+!SCHEMA DETAILS
+# details for museum entries
+ENTITY museum
+SQL	
+  SELECT m.GUID AS GUID,
+    m.Code AS Code,
+    m.Name AS Name,
+    mt.Name AS Type,
+    c.Name AS Country,
+    IsUserFavourite(%(userid)s, m.GUID) AS Star
+ FROM Museums m
+ LEFT JOIN MuseumTypes mt ON m.MuseumTypeID = mt.GUID
+ LEFT JOIN Countries c ON m.CountryID = c.GUID;
+FIELD Code
+FIELD Name
+FIELD Type
+FIELD Country

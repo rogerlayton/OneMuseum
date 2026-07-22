@@ -1,0 +1,26 @@
+#SDF#1
+!TEMPLATE BROWSER
+# multi-line commands to use newline character to separate the lines
+!ML=NEWLINE
+OBJECT expert
+ENTITY expertss
+TITLE Engage an Expert
+PERPAGE 20
+FROM Experts e
+ LEFT JOIN PerOrgs p ON e.PerOrgID = p.GUID
+ LEFT JOIN Museums m ON e.MuseumID = m.GUID
+BROWSER SELECT e.GUID as guid,
+   IsUserFavourite(%(userid)s, e.GUID) AS Star,
+   JoinStrings(p.Name, e.PerOrg) As Name,
+   m.Name As Museum,
+   e.SpecialtyAreas
+!D |
+ORDER Name| JoinStrings(p.Name, e.PerOrg)
+!D
+WHERE p.name LIKE %(search)s
+ OR e.PerOrg LIKE %(search)s
+ OR m.Name LIKE %(search)s
+ OR e.SpecialtyAreas LIKE %(search)s
+FIELD Name, 2
+FIELD Museum, 3
+FIELD SpecialtyAreas, 3

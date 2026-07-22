@@ -1,0 +1,31 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT lesson
+ENTITY lessons
+TITLE Take a Lesson 
+PERPAGE 20
+FROM Lessons l
+ LEFT JOIN Museums m on l.MuseumID = m.GUID
+ LEFT JOIN LessonTypes lt ON l.LessonTypeID = lt.GUID
+ LEFT JOIN CurriculumSubjects cs on l.CurriculumSubjectID = cs.GUID
+ LEFT JOIN CurriculumElements ce on l.CurriculumElementID = ce.GUID
+ LEFT JOIN CurriculumLevels cl ON ce.CurriculumLevelID = cl.GUID
+BROWSER SELECT l.GUID as guid,
+   IsUserFavourite(%(userid)s, l.GUID) AS Star,
+   m.Name As Museum,
+   l.Name AS Lesson,
+   l.Description AS Description,
+   JoinStrings(lt.Name, l.LessonType) AS LessonType,
+   JoinStrings(cs.Name, ce.Name) AS Subject,
+   JoinStrings(cl.Name, ce.CurriculumLevel) AS Grade
+ORDER Name, l.Name
+WHERE l.name LIKE %(search)s
+ OR l.Description LIKE %(search)s
+ OR cs.Name LIKE %(search)s
+ OR ce.Name LIKE %(search)s
+ OR cl.Name LIKE %(search)s
+FIELD Museum, 2
+FIELD Lesson, 4
+FIELD Type, 1
+FIELD Subject, 3
+FIELD Grade, 1

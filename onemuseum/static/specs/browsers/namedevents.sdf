@@ -1,0 +1,26 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT namedevent
+ENTITY namedevents
+TITLE Search for Historical Events 
+PERPAGE 20
+FROM NamedEvents ne
+ LEFT JOIN NamedEventTypes net ON ne.NamedEventTypeID = net.GUID
+BROWSER SELECT ne.GUID AS GUID,
+   IsUserFavourite(%(userid)s, ne.GUID) AS Star,
+   ne.Code AS Code,
+   net.Name AS Type,
+   ne.Name AS Name,
+   ne.DateDescription AS Date
+WHERE ne.name LIKE %(search)s
+ OR ne.Code LIKE %(search)s
+ OR net.Name LIKE %(search)s
+!D |
+ORDER Name| ne.Name
+ORDER Type, Name| net.Name, ne.Name
+ORDER Date| ne.DateDesciption
+!D
+FIELD Name, 2
+FIELD Code, 3
+FIELD Type, 3
+FIELD Date, 3

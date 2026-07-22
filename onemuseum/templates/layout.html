@@ -1,0 +1,68 @@
+# import "macros.html" as macros
+# include "head.html" with context
+
+ <body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="{{url_for('main.starter')}}" aria-label="Go to Starter Page">
+            onemuseum.net
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar top-bar"></span>
+            <span class="navbar-toggler-bar middle-bar"></span>
+            <span class="navbar-toggler-bar bottom-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              {{ macros.navitem('main.about', 'v 0.11.1', 'location_map-big') }}
+            </div>
+          </div>
+          <div>
+            <!-- Navbar Right Side -->
+            <div class="collapse navbar-collapse" data-nav-image="../assets/img//blurred-image-1.jpg" data-color="blue">
+              <ul class="navbar-nav ml-auto">
+                # if current_user.is_authenticated
+                  {{ macros.navitem('main.home', 'Home', 'travel_istanbul') }}
+                  {{ macros.navitem('users.account', 'Account', 'users_single-02') }}
+                  {{ macros.navitem('users.signout', 'Sign Out', 'arrows-1_minimal-down') }}
+                # else
+                  {{ macros.navitem('users.signin', 'Sign In', 'arrows-1_minimal-right') }}
+                  {{ macros.navitem('users.signup', 'Sign Up', 'arrows-1_minimal-up') }}
+                # endif
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header> 
+
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-12" style="padding-top: 0.2in">
+          # with messages = get_flashed_messages(with_categories=true)
+            # if messages
+              # for category, message in messages
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              # endfor
+            # endif
+          # endwith
+          # block content
+          # endblock
+        </div>
+
+      </div>
+    </main>
+
+# if isstarter == 1
+  # include "footer.html" with context
+# endif
+
+
+# include "jsincludes.html"
+
+</body>
+</html>
+ 

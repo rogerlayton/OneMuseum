@@ -1,0 +1,123 @@
+# import 'macros.html' as macros
+# extends "layout.html"
+# block content
+ 
+    # if data.get('Star') == 1
+        # set starfile = 'img/staryellow.png'
+    # else
+        # set starfile = 'img/starempty.png'
+    # endif
+
+    # set ajax = "javascript: togglefavourite('" + guid + "')"
+
+    <div class='container om-details'>
+        <div class='row'>
+            <div class="col-1" style='text-align:left; vertical-align: middle'>
+                <a href="{{ url_for('users.favourite', entity=entity, guid=guid) }}" style="cursor: grabbing">
+                    <img src="{{ url_for('static', filename=starfile) }}"
+                         style="min-width:24px; min-height:24px" />
+                </a>
+            </div>
+            <div class='col-11'>
+                <h2 style='margin-bottom: 0px'> 
+                    <span style='font-style: italic; font-weight:normal;'>{{ data.get('EntityType') }}</span>:
+                    {{ data.get('Name') }}
+                </h2>
+            </div>
+
+            # if 'Museum' in data
+            <div class='col-1'></div>
+                <p style="font-style:italic">Provided by: {{ data.get('Museum') }}</p>
+            <div class='col-11'>
+            # endif
+
+            <!--
+            </div>
+                <img class="card-img" src="{{ url_for('static', filename='') }}{{ data['imagefolder'] | default('assets/img')}}/{{ data['imagefile'] }}" alt="Card image">
+            </div>
+            -->
+        </div>
+    </div>
+
+    # if hasContent and data.get('Content') != None
+    <hr>
+    <div class='container'>
+        <div class='om-page'>
+            {{ content | safe }}
+        </div>
+    </div>
+    <hr>
+    # endif
+
+    <div class='container'>
+        <div class='row'>
+            <div class='col-md-12 col-lg-6'>
+                <table class='table'>
+                    <h3>Core Data</h3>
+                    <tbody>
+                        # for name, value in data.items()
+                        # if name not in ['DisplayName', 'GUID', 'guid', 'EntityType', 'Name', 'UserID', 'Star', 'Content']
+                            # if value is not none
+                                <tr class='d-flex'>
+                                    <td class='col-3'>{{ name }}</td>
+                                    <td class='col-9'>{{ value | replace("None","") }}</td>
+                                </tr>
+                            # endif
+                        # endif
+                        # endfor
+                    </tbody>
+                </table>
+            </div>
+ 
+            <div class='col-md-12 col-lg-6'>
+                <table class='table'>
+                <h3>Classifications</h3>
+                <tbody>
+                    # for category in categories
+                    <tr class='d-flex'>
+                        <td class='col-9'>
+                            # if category['CategoryValueID'] is not none
+                                <a href="{{ url_for('entities.show_categorylinks', entity='categorylinks', guid=category['CategoryValueID']) }}">
+                            # endif
+                            # if category['Value'] is not none and category['Value'] != ''
+                                {{ category['Value'] }}
+                            # elif category['Name'] is not none
+                                {{ category['Name'] }}
+                            # endif
+                            # if category["Location"] is not none
+                                {{ category['Location'] }}
+                            # endif
+                            # if category["DateDescription"] is not none
+                                {{ category['DateDescription'] }}
+                            # endif
+                            # if category['CategoryValueID'] is not none
+                                </a>
+                            # endif
+                        </td>
+                        <td class='col-3'>
+                            {{ category['Category'] | replace("None","")}}
+                        </td>
+                    </tr>
+                    # endfor
+                </tbody>
+                </table>
+            </div>
+        </div>
+
+        <table class='table'>
+            # if commondata != []
+                <h3>Extended Data</h3>
+                <tbody>
+                    # for element in commondata
+                    <tr class='d-flex'>
+                        <td class='col-3'>{{ element['Type'] }}</td>
+                        <td class='col-9'>{{ element['Value'] }}</td>
+                    </tr>
+                    # endfor
+                </tbody>
+            # endif
+        </table>
+
+    </div>
+
+# endblock content

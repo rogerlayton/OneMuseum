@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h2>{{ title }}</h2>
+    <p>Page: {{ page }}</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>PK</th>
+                <th>Code</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.type }}</td>
+                <td>{{ row.code }}</td>
+                <td>{{ row.name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if page > 1 %}
+        <a class="btn btn-dark mb-4" href="{{ url_for('pocs.poc04', page=page-1) }}">&lt;</a>
+    {% endif %}
+    {% for page_num in pagelist %}
+        {% if page_num > 0 %}
+            {% if page == page_num %}
+                <a class="btn btn-info mb-4" href="{{ url_for('pocs.poc04', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('pocs.poc04', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+        {% else %}
+        ...
+        {% endif %}
+    {% endfor %}
+    {% if page < maxpage %}
+        <a class="btn btn-dark mb-4" href="{{ url_for('pocs.poc04', page=page+1) }}">&gt;</a>
+    {% endif %}
+{% endblock content %}

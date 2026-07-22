@@ -1,0 +1,528 @@
+/*------------------------
+	icons
+-------------------------*/
+@function unicode($str) {
+  @return unquote("\"\\#{$str}\"");
+}
+
+$icon-temple: unicode(ea02);
+$icon-temple-2: unicode(ea03);
+$icon-temple-3: unicode(ea04);
+$icon-temple-5: unicode(ea05);
+$icon-temple-4: unicode(ea06);
+$icon-presentation-5: unicode(ea07);
+$icon-presentation-1: unicode(ea08);
+$icon-presentation-2: unicode(ea09);
+$icon-presentation-3: unicode(ea0a);
+$icon-presentation-4: unicode(ea0b);
+$icon-a-time-1: unicode(ea0c);
+$icon-temple-7: unicode(ea0d);
+$icon-book-open-2-3: unicode(ea0e);
+$icon-book: unicode(ea0f);
+$icon-filter-organization-1: unicode(ea10);
+$icon-folder-13: unicode(ea11);
+$icon-folder-16: unicode(ea12);
+$icon-filter-tool-1: unicode(ea13);
+$icon-log-in-1: unicode(ea14);
+$icon-log-out-1: unicode(ea15);
+$icon-single-05-1: unicode(ea16);
+$icon-a-time-2: unicode(ea17);
+$icon-temple-6: unicode(ea18);
+$icon-book-open-2-1: unicode(ea19);
+$icon-book-open-1: unicode(ea1a);
+$icon-filter-organization-4: unicode(ea1b);
+$icon-folder-14-1: unicode(ea1c);
+$icon-folder-18-1: unicode(ea1d);
+$icon-filter-tool-2: unicode(ea1e);
+$icon-gallery-layout-1: unicode(ea1f);
+$icon-lab-1: unicode(ea20);
+$icon-log-in-2: unicode(ea21);
+$icon-log-out-2: unicode(ea22);
+$icon-single-05-4: unicode(ea23);
+$icon-a-time-3: unicode(ea24);
+$icon-temple-8: unicode(ea25);
+$icon-book-open-2-2: unicode(ea26);
+$icon-book-open-3: unicode(ea27);
+$icon-filter-organization-2: unicode(ea28);
+$icon-folder-14-2: unicode(ea29);
+$icon-folder-18-2: unicode(ea2a);
+$icon-filter-tool-3: unicode(ea2b);
+$icon-gallery-layout-2: unicode(ea2c);
+$icon-lab-2: unicode(ea2d);
+$icon-log-out-3: unicode(ea2e);
+$icon-single-05-2: unicode(ea2f);
+$icon-a-time-4: unicode(ea30);
+$icon-temple-9: unicode(ea31);
+$icon-book-open-2-4: unicode(ea32);
+$icon-book-open-4: unicode(ea33);
+$icon-filter-organization-3: unicode(ea34);
+$icon-folder-14-3: unicode(ea35);
+$icon-folder-18-3: unicode(ea36);
+$icon-filter-tool-5: unicode(ea37);
+$icon-gallery-layout-3: unicode(ea38);
+$icon-lab-3: unicode(ea39);
+$icon-log-out-4: unicode(ea3a);
+$icon-single-05-3: unicode(ea3b);
+$icon-log-in-3: unicode(ea3c);
+$icon-filter-tool-4: unicode(ea3d);
+$icon-gallery-layout-4: unicode(ea3e);
+$icon-lab-4: unicode(ea3f);
+$icon-presentation-6: unicode(ea40);
+$icon-presentation-7: unicode(ea41);
+$icon-presentation-8: unicode(ea42);
+$icon-presentation-9: unicode(ea43);
+$icon-presentation-10: unicode(ea44);
+$icon-saved-items-1: unicode(ea45);
+$icon-saved-items-2: unicode(ea46);
+$icon-saved-items-3: unicode(ea47);
+$icon-saved-items-4: unicode(ea48);
+$icon-fav-list-1: unicode(ea49);
+$icon-fav-list-2: unicode(ea4a);
+$icon-fav-list-3: unicode(ea4b);
+$icon-fav-list-4: unicode(ea4c);
+$icon-star-rate-1: unicode(ea4d);
+$icon-star-rate-6: unicode(ea4e);
+$icon-star-rate-2: unicode(ea4f);
+$icon-star-rate-3: unicode(ea50);
+$icon-star-rate-4: unicode(ea51);
+$icon-star-rate-5: unicode(ea52);
+$icon-log-in-4: unicode(ea53);
+$icon-exhibition-1: unicode(ea54);
+$icon-exhibition-2: unicode(ea55);
+$icon-exhibition-3: unicode(ea56);
+$icon-exhibition-4: unicode(ea57);
+$icon-exhibition-5: unicode(ea58);
+$icon-reading-1: unicode(ea59);
+$icon-reading-2: unicode(ea5a);
+$icon-reading-3: unicode(ea5b);
+$icon-reading-4: unicode(ea5c);
+$icon-electronic-circuit-1: unicode(ea5d);
+$icon-electronic-circuit-2: unicode(ea5e);
+$icon-electronic-circuit-3: unicode(ea5f);
+$icon-electronic-circuit-4: unicode(ea60);
+$icon-migration-1: unicode(ea61);
+$icon-migration-2: unicode(ea62);
+$icon-migration-3: unicode(ea63);
+$icon-migration-4: unicode(ea64);
+$icon-board-51-1: unicode(ea65);
+$icon-board-51-3: unicode(ea66);
+$icon-board-51-5: unicode(ea67);
+$icon-board-51-4: unicode(ea68);
+$icon-board-51-2: unicode(ea69);
+
+.icon-temple::before {
+  content: $icon-temple;
+}
+
+.icon-temple-2::before {
+  content: $icon-temple-2;
+}
+
+.icon-temple-3::before {
+  content: $icon-temple-3;
+}
+
+.icon-temple-5::before {
+  content: $icon-temple-5;
+}
+
+.icon-temple-4::before {
+  content: $icon-temple-4;
+}
+
+.icon-presentation-5::before {
+  content: $icon-presentation-5;
+}
+
+.icon-presentation-1::before {
+  content: $icon-presentation-1;
+}
+
+.icon-presentation-2::before {
+  content: $icon-presentation-2;
+}
+
+.icon-presentation-3::before {
+  content: $icon-presentation-3;
+}
+
+.icon-presentation-4::before {
+  content: $icon-presentation-4;
+}
+
+.icon-a-time-1::before {
+  content: $icon-a-time-1;
+}
+
+.icon-temple-7::before {
+  content: $icon-temple-7;
+}
+
+.icon-book-open-2-3::before {
+  content: $icon-book-open-2-3;
+}
+
+.icon-book::before {
+  content: $icon-book;
+}
+
+.icon-filter-organization-1::before {
+  content: $icon-filter-organization-1;
+}
+
+.icon-folder-13::before {
+  content: $icon-folder-13;
+}
+
+.icon-folder-16::before {
+  content: $icon-folder-16;
+}
+
+.icon-filter-tool-1::before {
+  content: $icon-filter-tool-1;
+}
+
+.icon-log-in-1::before {
+  content: $icon-log-in-1;
+}
+
+.icon-log-out-1::before {
+  content: $icon-log-out-1;
+}
+
+.icon-single-05-1::before {
+  content: $icon-single-05-1;
+}
+
+.icon-a-time-2::before {
+  content: $icon-a-time-2;
+}
+
+.icon-temple-6::before {
+  content: $icon-temple-6;
+}
+
+.icon-book-open-2-1::before {
+  content: $icon-book-open-2-1;
+}
+
+.icon-book-open-1::before {
+  content: $icon-book-open-1;
+}
+
+.icon-filter-organization-4::before {
+  content: $icon-filter-organization-4;
+}
+
+.icon-folder-14-1::before {
+  content: $icon-folder-14-1;
+}
+
+.icon-folder-18-1::before {
+  content: $icon-folder-18-1;
+}
+
+.icon-filter-tool-2::before {
+  content: $icon-filter-tool-2;
+}
+
+.icon-gallery-layout-1::before {
+  content: $icon-gallery-layout-1;
+}
+
+.icon-lab-1::before {
+  content: $icon-lab-1;
+}
+
+.icon-log-in-2::before {
+  content: $icon-log-in-2;
+}
+
+.icon-log-out-2::before {
+  content: $icon-log-out-2;
+}
+
+.icon-single-05-4::before {
+  content: $icon-single-05-4;
+}
+
+.icon-a-time-3::before {
+  content: $icon-a-time-3;
+}
+
+.icon-temple-8::before {
+  content: $icon-temple-8;
+}
+
+.icon-book-open-2-2::before {
+  content: $icon-book-open-2-2;
+}
+
+.icon-book-open-3::before {
+  content: $icon-book-open-3;
+}
+
+.icon-filter-organization-2::before {
+  content: $icon-filter-organization-2;
+}
+
+.icon-folder-14-2::before {
+  content: $icon-folder-14-2;
+}
+
+.icon-folder-18-2::before {
+  content: $icon-folder-18-2;
+}
+
+.icon-filter-tool-3::before {
+  content: $icon-filter-tool-3;
+}
+
+.icon-gallery-layout-2::before {
+  content: $icon-gallery-layout-2;
+}
+
+.icon-lab-2::before {
+  content: $icon-lab-2;
+}
+
+.icon-log-out-3::before {
+  content: $icon-log-out-3;
+}
+
+.icon-single-05-2::before {
+  content: $icon-single-05-2;
+}
+
+.icon-a-time-4::before {
+  content: $icon-a-time-4;
+}
+
+.icon-temple-9::before {
+  content: $icon-temple-9;
+}
+
+.icon-book-open-2-4::before {
+  content: $icon-book-open-2-4;
+}
+
+.icon-book-open-4::before {
+  content: $icon-book-open-4;
+}
+
+.icon-filter-organization-3::before {
+  content: $icon-filter-organization-3;
+}
+
+.icon-folder-14-3::before {
+  content: $icon-folder-14-3;
+}
+
+.icon-folder-18-3::before {
+  content: $icon-folder-18-3;
+}
+
+.icon-filter-tool-5::before {
+  content: $icon-filter-tool-5;
+}
+
+.icon-gallery-layout-3::before {
+  content: $icon-gallery-layout-3;
+}
+
+.icon-lab-3::before {
+  content: $icon-lab-3;
+}
+
+.icon-log-out-4::before {
+  content: $icon-log-out-4;
+}
+
+.icon-single-05-3::before {
+  content: $icon-single-05-3;
+}
+
+.icon-log-in-3::before {
+  content: $icon-log-in-3;
+}
+
+.icon-filter-tool-4::before {
+  content: $icon-filter-tool-4;
+}
+
+.icon-gallery-layout-4::before {
+  content: $icon-gallery-layout-4;
+}
+
+.icon-lab-4::before {
+  content: $icon-lab-4;
+}
+
+.icon-presentation-6::before {
+  content: $icon-presentation-6;
+}
+
+.icon-presentation-7::before {
+  content: $icon-presentation-7;
+}
+
+.icon-presentation-8::before {
+  content: $icon-presentation-8;
+}
+
+.icon-presentation-9::before {
+  content: $icon-presentation-9;
+}
+
+.icon-presentation-10::before {
+  content: $icon-presentation-10;
+}
+
+.icon-saved-items-1::before {
+  content: $icon-saved-items-1;
+}
+
+.icon-saved-items-2::before {
+  content: $icon-saved-items-2;
+}
+
+.icon-saved-items-3::before {
+  content: $icon-saved-items-3;
+}
+
+.icon-saved-items-4::before {
+  content: $icon-saved-items-4;
+}
+
+.icon-fav-list-1::before {
+  content: $icon-fav-list-1;
+}
+
+.icon-fav-list-2::before {
+  content: $icon-fav-list-2;
+}
+
+.icon-fav-list-3::before {
+  content: $icon-fav-list-3;
+}
+
+.icon-fav-list-4::before {
+  content: $icon-fav-list-4;
+}
+
+.icon-star-rate-1::before {
+  content: $icon-star-rate-1;
+}
+
+.icon-star-rate-6::before {
+  content: $icon-star-rate-6;
+}
+
+.icon-star-rate-2::before {
+  content: $icon-star-rate-2;
+}
+
+.icon-star-rate-3::before {
+  content: $icon-star-rate-3;
+}
+
+.icon-star-rate-4::before {
+  content: $icon-star-rate-4;
+}
+
+.icon-star-rate-5::before {
+  content: $icon-star-rate-5;
+}
+
+.icon-log-in-4::before {
+  content: $icon-log-in-4;
+}
+
+.icon-exhibition-1::before {
+  content: $icon-exhibition-1;
+}
+
+.icon-exhibition-2::before {
+  content: $icon-exhibition-2;
+}
+
+.icon-exhibition-3::before {
+  content: $icon-exhibition-3;
+}
+
+.icon-exhibition-4::before {
+  content: $icon-exhibition-4;
+}
+
+.icon-exhibition-5::before {
+  content: $icon-exhibition-5;
+}
+
+.icon-reading-1::before {
+  content: $icon-reading-1;
+}
+
+.icon-reading-2::before {
+  content: $icon-reading-2;
+}
+
+.icon-reading-3::before {
+  content: $icon-reading-3;
+}
+
+.icon-reading-4::before {
+  content: $icon-reading-4;
+}
+
+.icon-electronic-circuit-1::before {
+  content: $icon-electronic-circuit-1;
+}
+
+.icon-electronic-circuit-2::before {
+  content: $icon-electronic-circuit-2;
+}
+
+.icon-electronic-circuit-3::before {
+  content: $icon-electronic-circuit-3;
+}
+
+.icon-electronic-circuit-4::before {
+  content: $icon-electronic-circuit-4;
+}
+
+.icon-migration-1::before {
+  content: $icon-migration-1;
+}
+
+.icon-migration-2::before {
+  content: $icon-migration-2;
+}
+
+.icon-migration-3::before {
+  content: $icon-migration-3;
+}
+
+.icon-migration-4::before {
+  content: $icon-migration-4;
+}
+
+.icon-board-51-1::before {
+  content: $icon-board-51-1;
+}
+
+.icon-board-51-3::before {
+  content: $icon-board-51-3;
+}
+
+.icon-board-51-5::before {
+  content: $icon-board-51-5;
+}
+
+.icon-board-51-4::before {
+  content: $icon-board-51-4;
+}
+
+.icon-board-51-2::before {
+  content: $icon-board-51-2;
+}
+

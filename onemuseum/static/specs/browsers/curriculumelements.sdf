@@ -1,0 +1,35 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT curriculumelement
+ENTITY curriculumelements
+TITLE Search the Curriculum
+PERPAGE 20
+FROM CurriculumElements ce
+ LEFT JOIN CurriculumElementTypes cet ON ce.CurriculumElementTypeID = cet.GUID
+ LEFT JOIN CurriculumElements cep ON ce.ParentID = cep.GUID
+ LEFT JOIN CurriculumElementTypes cept ON cep.CurriculumElementTypeID = cept.GUID
+ LEFT JOIN Curricula c ON ce.CurriculumID = c.GUID
+ LEFT JOIN CurriculumLevels cl ON ce.CurriculumLevelID = cl.GUID
+ LEFT JOIN CurriculumSubjects cs on ce.CurriculumSubjectID = cs.GUID
+BROWSER SELECT ce.GUID as guid,
+   IsUserFavourite(%(userid)s, c.GUID) AS Star,
+   JoinStrings(cep.Name, cept.Name) AS Parent,
+   ce.Code AS Code,
+   ce.Name AS Element,
+   JoinStrings(cet.Name, ce.CurriculumElementType) AS Type,
+   cl.Name AS Grade,
+   JoinStrings(cs.Name, ce.CurriculumSubject) AS Subject,
+   JoinStrings(c.Name, ce.Curriculum) AS `Curr.`
+!D | 
+ORDER Subject, Grade| c.Name, cs.Name, cl.Seq, ce.Seq
+!D
+WHERE ce.name LIKE %(search)s
+ OR JoinStrings(cl.Name, ce.CurriculumLevel) LIKE %(search)s
+ OR JoinStrings(cs.Name, ce.CurriculumSubject) LIKE %(search)s
+FIELD Curr., 1
+FIELD Subject, 2
+FIELD Grade, 1
+FIELD Code, 1
+FIELD Element, 3
+FIELD Type, 1
+FIELD Parent, 3

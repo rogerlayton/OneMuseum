@@ -1,0 +1,21 @@
+<div class="col-md-4">
+    <div class="content-section">
+      <h3>Quick Links</h3>
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-light">
+            <a class="nav-item nav-link" href="{{ url_for('posts.postsall') }}">All Posts</a>
+          </li>
+          <li class="list-group-item list-group-item-light">
+            <a class="nav-item nav-link" href="{{ url_for('main.notyet') }}">my Workspace</a>
+          </li>
+          <li class="list-group-item list-group-item-light">
+            <a class="nav-item nav-link" href="{{ url_for('main.notyet') }}">Search</a>
+          </li>
+          <li class="list-group-item list-group-item-light">
+            <a class="nav-item nav-link"
+                href="{{ url_for('main.notyet', title='Recent Additions', content='New content which this used has not yet seen') }}">Recent Additions</a>
+            </li>
+        </ul>
+      </p>
+    </div>
+  </div>

@@ -1,0 +1,56 @@
+CREATE DATABASE MuseumsLIst;
+
+Use MuseumsList;
+
+CREATE TABLE Museums
+(
+	ID SERIAL PRIMARY KEY,
+    GUID CHAR(36),
+    Name VARCHAR(200) NOT NULL,
+    OtherNames VARCHAR(200) NULL,
+    Status INT DEFAULT 1,
+    Priority INT DEFAULT 0,
+    ParentName VARCHAR(200) NULL,
+    Code VARCHAR(10) NULL,
+    Type VARCHAR(50) NULL,
+    Ownership VARCHAR(20) NULL,
+    CATTime VARCHAR(50) NULL, 
+    CATPlace VARCHAR(50) NULL, 
+    CATSubject VARCHAR(50) NULL, 
+    CATAgent VARCHAR(50) NULL, 
+	Province VARCHAR(50) NULL,
+    MainCentre VARCHAR(100) NULL,
+    StreetAddress VARCHAR(100) NULL,
+    ContactPerson VARCHAR(50) NULL, 
+    Email VARCHAR(50) NULL, 
+    Tel VARCHAR(50) NULL, 
+    Tel2 VARCHAR(50) NULL, 
+    Fax VARCHAR(50) NULL, 
+    WebSite VARCHAR(50) NULL
+);
+
+ALTER TABLE Museums
+ADD Notes TEXT NULL;
+
+
+CREATE TABLE Collections (
+	ID SERIAL PRIMARY KEY,
+    MuseumID BIGINT(20) NOT NULL,
+    Name VARCHAR(255) NULL,
+    Description TEXT NULL,
+    CATTime VARCHAR(50) NULL, 
+    CATPlace VARCHAR(50) NULL, 
+    CATSubject VARCHAR(50) NULL, 
+    CATAgent VARCHAR(50) NULL, 
+	Notes TEXT
+);
+
+ALTER TABLE COllections
+MODIFY MuseumID BIGINT(20) UNSIGNED NOT NULL;
+
+
+
+
+
+
+SELECT * FROM Museums;

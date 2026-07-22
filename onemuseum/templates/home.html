@@ -1,0 +1,130 @@
+# import 'macros.html' as macros
+# extends "layout.html"
+# block content
+<div class="container OM-home">
+
+  <h3>OneMuseum User Command Centre</h3>
+
+  <div class="row">
+    <div class="col-md-3" style="border-right: 3px solid #eee; padding-right: 20px;">
+      <ul class="nav nav-pills nav-pills-primary flex-column" role="tablist">
+        {{ macros.home_nav ('LEARN', 'active') }}
+        {{ macros.home_nav ('DISCOVER') }}
+        {{ macros.home_nav ('FILTER') }}
+        {{ macros.home_nav ('REFERENCE') }}
+        {{ macros.home_nav ('MANAGE') }}
+      </ul>
+    </div>
+
+    <div class="col-md-9" style="padding-left: 20px">
+      <div class="tab-content">
+
+            <div class="tab-pane active" id="TAB_LEARN">
+              <h4>Learn about the OneMuseum</h4>
+
+              {{ macros.home_nav_item('START HERE',
+                  'Getting started - discover the world of OneMuseum',
+                  'support.show', 'introduction') }}
+
+              {{ macros.home_nav_item('USER GUIDE',
+                'Guide to using the OneMuseum',
+                'support.show', 'userguide') }}
+
+              {{ macros.home_nav_item('MUSEUM GUIDE',
+                'Guide for contributing institutions',
+                'support.show', 'museumguide') }}
+    
+              {{ macros.home_nav_item('WHAT\'S NEW',
+                'Information about what museums are online, what data included, and what new features added',
+                'support.show', 'whatsnew') }}
+
+              {{ macros.home_nav_item('NEWSLETTERS',
+                'Our current and past newsletters',
+                'support.show', 'newsletters') }}
+    
+            </div>
+
+            <div class="tab-pane" id="TAB_DISCOVER">
+              <h4>Explore the content provided in the OneMuseum</h4>
+
+              {{ macros.home_nav_item('MUSEUMS', 'Discover museums',
+              'entities.show_browser', 'museums') }}
+  
+              {{ macros.home_nav_item('COLLECTIONS', 'Explore the collections',
+              'entities.show_browser', 'collections') }}
+
+              {{ macros.home_nav_item('EXHIBITION', 'Visit an exhibition',
+              'entities.show_browser', 'exhibitions') }}
+
+              {{ macros.home_nav_item('ITEMS', 'Find an Item',
+              'entities.show_browser', 'items') }}
+
+              {{ macros.home_nav_item('STORIES', 'Read a Story',
+              'entities.show_browser', 'stories') }}
+
+              {{ macros.home_nav_item('LESSONS', 'Take a Lesson',
+              'entities.show_browser', 'lessons') }}
+
+              {{ macros.home_nav_item('PUBLICATIONS', 'Peruse a Publication',
+              'entities.show_browser', 'publications') }}
+
+              {{ macros.home_nav_item('EXPERTS', 'Engage with an Expert',
+              'entities.show_browser', 'experts') }}
+
+              {{ macros.home_nav_item('MUSEUM EVENTS', 'Attend an Event',
+              'entities.show_browser', 'museumevents') }}
+
+              {{ macros.home_nav_item('BIOGRAPHIES', 'Browse a Biography',
+              'entities.show_browser', 'biographies') }}
+
+            </div>
+
+            <div class="tab-pane" id="TAB_FILTER">
+              <h4>Select your areas of interest from the six classes of categories in the OneMuseum controlled vocabularies</h4>
+
+              {{ macros.home_nav_item('NAMED PLACES', 'Search for Named Places',
+              'entities.show_browser', 'namedplaces') }}
+
+              {{ macros.home_nav_item('NAMED EVENTS', 'Search for Named Events or Periods',
+              'entities.show_browser', 'namedevents') }}
+
+              {{ macros.home_nav_item('PERSONS / ORGANISATIONS', 'Search for Persons, Peoples, and Organisations',
+              'entities.show_browser', 'perorgs') }}
+
+              {{ macros.home_nav_item('CURRICULUM ELEMENTS', 'Search for Topics Elements contained in the Curriculum',
+              'entities.show_browser', 'curriculumelements') }}
+
+              {{ macros.home_nav_item('SUBJECTS', 'Search for Subjects and Topics',
+              'entities.show_browser', 'subjects') }}
+
+              {{ macros.home_nav_item('ITEM TYPES', 'Search for Item Types',
+              'entities.show_browser', 'itemtypes') }}
+
+            </div>
+
+            <div class="tab-pane" id="TAB_MANAGE">
+              <h4>Manage your own information aned create your own experience</h4>
+
+              {{ macros.home_nav_item('MY PROFILE', 'My Profile', 'users.account') }}
+
+              {{ macros.home_nav_item('MY FAVOURITES', 'My Favourites',
+              'entities.show_browser', 'myfavourites') }}
+
+              {{ macros.home_nav_item('MY HISTORY', 'Show my prior usage of OneMuseum',
+              'users.history') }}
+
+            </div>
+
+            <div class="tab-pane" id="TAB_REFERENCE">
+              <h4>Access useful reference materials</h4>
+
+              {{ macros.home_nav_item('CHENHALL', 'Search the entire Chenhall Nomenclature',
+              'entities.show_browser', 'chenhall') }}
+
+            </div>
+
+          </div>
+    </div>
+  </div>
+</div>
+# endblock content

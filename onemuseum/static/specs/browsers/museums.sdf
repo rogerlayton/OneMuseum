@@ -1,0 +1,26 @@
+#SDF#1
+!TEMPLATE BROWSER
+# multi-line commands to use newline character to separate the lines
+!ML=NEWLINE
+OBJECT museum
+ENTITY museums
+TITLE Visit a Museum
+PERPAGE 20
+FROM Museums m
+ LEFT JOIN Museums mp on m.ParentID = mp.GUID
+ LEFT JOIN MuseumTypes mt ON m.MuseumTypeID = mt.GUID
+ LEFT JOIN Countries c ON m.CountryID = c.GUID
+BROWSER SELECT m.GUID as guid,
+   IsUserFavourite(%(userid)s, m.GUID) AS Star, 
+   m.Name As Museum,
+   c.Name AS Country, m.CountryID,
+   mp.Name AS Parent,
+   mt.Name AS Type, m.MuseumTypeID
+ORDER Name, m.Name
+WHERE m.name LIKE %(search)s
+ OR mp.Name LIKE %(search)s
+ OR c.Name LIKE %(search)s
+FIELD Parent, 2
+FIELD Museum, 3
+FIELD Type, 3
+FIELD Country, 3

@@ -1,0 +1,19 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT subject
+ENTITY subjects
+TITLE Search for Subjects
+PERPAGE 20
+FROM Subjects s
+ LEFT JOIN Subjects sp ON s.ParentID = sp.GUID
+BROWSER SELECT s.GUID as guid,
+   IsUserFavourite(%(userid)s, s.GUID) AS Star,
+   s.Name As Subject,
+   sp.Name AS Parent,
+   s.Description AS Description
+ORDER Name, s.Name
+WHERE s.name LIKE %(search)s
+ OR sp.Name LIKE %(search)s
+FIELD Subject, 3
+FIELD Description, 5
+FIELD Parent, 3

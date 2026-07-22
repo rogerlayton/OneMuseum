@@ -1,0 +1,23 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT museumevent
+ENTITY museumevents
+TITLE Attend an Event
+PERPAGE 20
+FROM MuseumEvents me
+ LEFT JOIN Museums m on me.MuseumID = m.GUID
+ LEFT JOIN MuseumEventTypes met ON me.MuseumEventTypeID = met.GUID
+BROWSER SELECT me.GUID as guid,
+   IsUserFavourite(%(userid)s, me.GUID) AS Star, 
+   m.Name As Museum,
+   me.Title AS Event,
+   me.DateDescription AS Date,
+   met.Name AS Type, me.MuseumEventTypeID
+ORDER Name, me.Title
+WHERE me.Title LIKE %(search)s
+ OR met.Name LIKE %(search)s
+ OR m.Name LIKE %(search)s
+FIELD Event, 4
+FIELD Type, 2
+FIELD Museum, 3
+FIELD Date, 2

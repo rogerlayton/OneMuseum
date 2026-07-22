@@ -1,0 +1,18 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT biography
+ENTITY biographies
+TITLE Read a Biography
+PERPAGE 20
+FROM Biographies b
+ LEFT JOIN PerOrgs p on b.PerOrgID = p.GUID
+BROWSER SELECT b.GUID as guid,
+   IsUserFavourite(%(userid)s, b.GUID) AS Star,
+   JoinStrings(p.Name, b.Name) As Name,
+   b.Title AS Title
+ORDER Name, b.Name
+WHERE b.name LIKE %(search)s
+ OR p.Name LIKE %(search)s
+FIELD Name, 3
+FIELD Title, 5
+FIELD Museum, 3

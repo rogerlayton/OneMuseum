@@ -1,0 +1,182 @@
+{% import 'macros.html' as macros %}
+<!--
+
+THIS IS THE ONEMUSEUM : onemuseum.net
+
+The front-page for this portal is based on the Now UI Kit Pro template from Creative Tim.
+
+The OneMuseum is a portal which aggregates content from museums to make this content
+easily available to users, with specific focus on school-level learners.
+
+
+=========================================================
+* Now UI Kit - v1.3.1
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/now-ui-kit-pro
+* Copyright 2019 Creative Tim (http://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/now-ui-kit/blob/master/LICENSE.md)
+
+* Designed by www.invisionapp.com Coded by www.creative-tim.com
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+-->
+
+# include "head.html" with context
+
+<body class="landing-page sidebar-collapse">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-absolute navbar-transparent">
+      <div class="container">
+        <div class="navbar-translate">
+          <a class="navbar-brand" href="{{url_for('main.starter')}}" aria-label="Go to Starter Page">
+            onemuseum.net
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar top-bar"></span>
+            <span class="navbar-toggler-bar middle-bar"></span>
+            <span class="navbar-toggler-bar bottom-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" data-nav-image="static/assets/img/bg6.jpg" data-color="blue">
+          <ul class="navbar-nav ml-auto">
+            # if current_user.is_authenticated
+              {{ macros.navitem('main.home', 'Home', 'business_bank') }}
+              {{ macros.navitem('users.signout', 'Sign Out', 'arrows-1_minimal-down') }}
+            # else
+              {{ macros.navitem('users.signin', 'Sign In', 'arrows-1_minimal-right') }}
+              {{ macros.navitem('users.signup', 'Sign Up', 'arrows-1_minimal-up') }}
+            # endif
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+  
+  <div class="wrapper">
+    <div class="page-header page-header-small">
+<!--      <div class="page-header-image" data-parallax="true" style='background-image: url({{ url_for("static", filename="img/sheng-li-AHV8vqJIuqU-unsplash (Custom).jpg") }});'>
+      </div> -->''
+      <div class="page-header-image" data-parallax="true" style="background-image: url('/static/assets/img/bg6.jpg');">
+      </div>
+      <div class="content-center">
+        <div class="container" id="starter-title">
+          <h1 class="title">The OneMuseum network</h1>
+          <h5><em><span style="color:white">virtual museum hosting for all</span></em></h5>
+          <h3>Educate. Inform. Entertain. Innovate. Organise.</h3>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 ml-auto mr-auto">
+          <h4 class="description">
+            The OneMuseum is an aggregation portal for museums
+            and non-museum heritage collections, including a virtual museum hosting environment
+            suited to small and large museums. OneMuseum
+            provides a single point of access to open data 
+            for the benefit of school educators, scholars, learners, researchers and everyone who loves to visit museums.
+          </h4>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-md-4">
+          <div class="info info-hover">
+            <div class="icon icon-success">
+              <i class="om-icons icon-single-05-2"></i>
+            </div>
+            <h4 class="info-title">Users</h4>
+            <p class="description">Register as a user to gain access the wealth of information
+              being developed in the repositories of OneMuseum.
+              Use this information in an open data mode acknowledging the source institution.                
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="info info-hover">
+            <div class="icon icon-primary">
+              <i class="om-icons icon-temple-8"></i>
+            </div>
+            <h4 class="info-title">Museums</h4>
+            <p class="description">As a museum or as an institution with heritage collections,
+              you can prepare and upload your information to 
+              your own virtual museum within the OneMuseum
+              growing this as you mature in your digital dissemination practices.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="info info-hover">
+            <div class="icon icon-warning">
+              <i class="om-icons icon-electronic-circuit-3"></i>
+            </div>
+            <h4 class="info-title">Digital Transformation</h4>
+            <p class="description">Now is the time for you to rapidly engage in 
+              the digital transformation of your institution, 
+              both to expand and broaden access to your collections
+              and for the long-term digital preservation of your knowledge and collections.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="info info-hover">
+            <div class="icon icon-primary">
+              <i class="om-icons icon-migration-2"></i>
+            </div>
+            <h4 class="info-title">Uploading Content</h4>
+            <p class="description">We provide a very simple method
+              to build and curate your online content
+              for ingestions into the OneMuseum repository.
+              There is no XML or other complex data structures,
+              and only a few format requirements while
+              ensuring the integrity and security of your information.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="info info-hover">
+            <div class="icon icon-success">
+              <i class="om-icons icon-filter-tool-2"></i>
+            </div>
+            <h4 class="info-title">Categorization / Filters</h4>
+            <p class="description">Information is more accessible when effectively categorized.
+              We provide many common and shared standard vocabularies
+              to assist with classifying and categorizing your content.</p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="info info-hover">
+            <div class="icon icon-warning">
+              <i class="om-icons icon-board-51-3"></i>
+            </div>
+            <h4 class="info-title">Curriculum Linkage</h4>
+            <p class="description">All museums provide support for education.
+              We provide a linkage of your educational products to 
+              to the curriculum providing direct and easy access educators and learners
+              for a variety of educational purposes.</p>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+    #include "footer.html" with context
+  </div>
+
+# include "jsincludes.html"
+
+</body>
+
+</html>

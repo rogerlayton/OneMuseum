@@ -1,0 +1,22 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT chenhall
+ENTITY chenhall
+TITLE Search the Nomenclature
+PERPAGE 20
+FROM ChenhallNomenclature
+BROWSER SELECT ID AS GUID,
+  Name,
+  Category, Class, SubClass,
+  PrimaryTerm AS `Primary Term`,
+  SecondaryTerm AS `Secondary Term`,
+  TertiaryTerm AS `Tertiary Term`
+ORDER Name, Name
+WHERE Name LIKE %(search)s
+  OR NameUK LIKE %(search)s
+FIELD Name, 2
+FIELD Category, 2
+FIELD Class, 2
+FIELD SubClass, 2
+FIELD Primary Term, 2
+FIELD Secondary Term, 1

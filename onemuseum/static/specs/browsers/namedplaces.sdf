@@ -1,0 +1,27 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT namedplace
+ENTITY namedplaces
+TITLE Search for Places 
+PERPAGE 20
+FROM NamedPlaces np
+ LEFT JOIN NamedPlaceTypes npt ON np.NamedPlaceTypeID = npt.GUID
+ LEFT JOIN NamedPlaces npp ON np.ParentID = npp.GUID
+ LEFT JOIN NamedPlaces npr ON np.ProvinceID = npr.GUID
+ LEFT JOIN NamedPlaces npc ON np.CountryID = npc.GUID
+BROWSER SELECT np.GUID AS GUID,
+   IsUserFavourite(%(userid)s, np.GUID) AS Star,
+   np.Name AS Place,
+   np.Code AS Code,
+   npt.Name AS Type,
+   npp.Name AS Parent,
+   npr.Name AS Province,
+   npc.Name AS Country
+ORDER Name, np.Name
+WHERE np.name LIKE %(search)s
+ OR npr.Name LIKE %(search)s
+FIELD Place, 2
+FIELD Type, 3
+FIELD Parent, 2
+FIELD Province, 2
+FIELD Country, 2

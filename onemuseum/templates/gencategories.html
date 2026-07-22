@@ -1,0 +1,76 @@
+# import 'macros.html' as macros
+# extends "layout.html"
+# block content
+    {{ macros.browserheader(title, page, search) }}
+    # set entity_proc = 'entities.runbrowser' 
+    {{ macros.pagination2(page, maxpage, pagelist, entity_proc, entity) }}
+
+    <script>
+        function toggletranslate(sourceElem) {
+            // https://stackoverflow.com/questions/2385113/howto-div-with-onclick-inside-another-div-with-onclick-javascript
+            if (!e) var e = window.event;
+            e.cancelBubble = true;
+            if (e.stopPropagation) e.stopPropagation();
+            alert($(sourceElem).attr("id"));
+
+        }
+    </script>
+
+    <table class="table table-hover">
+        <thead>
+            <tr class="d-flex">
+                {# set up the column headers #}
+                # for field in fields
+                    <th class="col-{{ field.cols }}">{{ field.name }}</th>
+                # endfor
+                <th class="col-1"><img src="{{ url_for('static', filename='img/staryellow.png') }}"  style="width:24px; height:24px" /></th>
+            </tr>
+        </thead>
+        <tbody>
+            # for row in data
+                # if "guid" in row
+                    # set GUID = row.guid 
+                # elif "GUID" in row
+                    # set GUID = row.GUID 
+                # endif
+            <tr onclick="window.location='/d/{{ object }}/{{ GUID }}'" 
+                    class="d-flex"
+                    style="cursor:pointer">
+                    {# set up the cell values #}
+                    # for field in fields
+                        # set cell = row[field.name]
+                        # if search == ""
+                            <td class="col-{{ field.cols }}">
+                                {{ cell|replace("None","") }}
+                            </td>
+                        # else
+                            <td class="col-{{ field.cols }}">
+                                {# {{ cell|replace("None","")|replace(search, "<b>"|safe + search + "</b>"|safe) }} #}
+                                {{ cell|replace("None","")|highlight(search)|safe }}                           </td>
+                        # endif
+                    # endfor
+                    # if row['Star'] == 1
+                        <td class="col-1 float-right>
+                            <a href="javascript: togglefavourite('row-{{row.guid}}');" style="cursor: copy">
+                                <img src="{{ url_for('static', filename='img/staryellow.png') }}"
+                                     id="row-{{row.guid}}"
+                                     onclick="javascript: togglefavourite('row-{{row.guid}}');"
+                                     style="width:24px; height:24px" />
+                            </a>
+                        </th>
+                        # else
+                        <td class="col-1 float-right" onclick="javascript: togglefavourite('row-{{row.guid}}');" style="cursor: copy">
+                            <img src="{{ url_for('static', filename='img/starempty.png') }}"
+                                    id="row-{{row.guid}}"
+                                    onclick="javascript: togglefavourite('row-{{row.guid}}');"
+                                    style="width:24px; height:24px" />
+                        </th>
+                    # endif
+                    </tr>
+            # endfor
+        </tbody>
+    </table>
+
+    {{ macros.pagination2(page, maxpage, pagelist, entity_proc, entity) }}
+
+# endblock content

@@ -1,0 +1,5 @@
+#SDF#1
+# one title, contains 1 string
+TITLE 1, 1, string
+# 1 or more items, 5 elements, each is a string
+ITEM n*, 5, string, string, string, string, string 

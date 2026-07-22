@@ -1,0 +1,16 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT perorg
+ENTITY perorgs
+TITLE Search for a Person/Organisation 
+PERPAGE 20
+FROM PerOrgs po
+ LEFT JOIN PerOrgTypes pot ON po.PerOrgTypeID = pot.GUID
+BROWSER SELECT po.GUID as guid,
+   IsUserFavourite(%(userid)s, po.GUID) AS Star,
+   po.Name AS Name,
+   pot.Name AS Type
+ORDER Name, po.Name
+WHERE po.name LIKE %(search)s
+FIELD Name, 7
+FIELD Type, 4

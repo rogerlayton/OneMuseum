@@ -1,0 +1,125 @@
+#SDF#1
+# the schema will check whether the sdf commands are valid for the menu
+!SCHEMA MENU
+TITLE Home
+# one line for each menu items: title, text, folder, image, function, OPT parameter to function
+
+# ----------------------------------------------------------------------
+# LEARN
+# ----------------------------------------------------------------------
+
+GROUP LEARN, Learn about the OneMuseum
+
+ITEM Introduction, Getting Started,
+ assets/img, bg44 (Thumb).jpg, support.show, introduction
+
+ITEM User Guide, Guide to Usage of the OneMuseum,
+ assets/img, bg44 (Thumb).jpg, support.show, userguide
+
+ITEM Museum Guid, Guide for Contributing Museums,
+ assets/img, bg44 (Thumb).jpg, support.show, museumguide
+
+ITEM What's New, New Information and Stories,
+ assets/img, bg44 (Thumb).jpg, support.show, what's new
+ 
+ITEM Newsletter, Recent Newletters,
+ assets/img, bg44 (Thumb).jpg, support.show, newsletters
+
+ITEM Privacy Compliance, How we comply with privacy legislation,
+ assets/img, bg44 (Thumb).jpg, support.show, privacy
+
+ENDGROUP
+
+
+# ----------------------------------------------------------------------
+# DISCOVER
+# ----------------------------------------------------------------------
+
+GROUP DISCOVER, Explore the full content of the OneMuseum
+
+ITEM Museums, Find a museum,
+ img, scott-webb-ab80p262fFM-unsplash (Thumb).jpg, entities.show_browser, museums
+
+ITEM Collections, Explore a Collection,
+ img, eric-prouzet-jLtXXn7n16k-unsplash (Thumb).jpg, entities.show_browser, collections
+
+ITEM Exhibitions, Visit an Exhibition,
+ img, piotr-kolawa-1Cw_ZbPljZ4-unsplash (Thumb).jpg, entities.show_browser, exhibitions
+
+ITEM Items, Discover an Item,
+ img, revolt-m2JlMXdqb3s-unsplash (Thumb).jpg, entities.show_browser, items
+
+ITEM Stories, Read a Story,
+ assets/img/examples, card-blog10 (Thumb).jpg, entities.show_browser, stories
+
+ITEM Lessons, Take a Lesson,
+ img, belinda-fewings-_CyyAj0QboY-unsplash (Thumb).jpg, entities.show_browser, lessons
+
+ITEM Publications, Read a Publication,
+ img, james-l-w-v5gIzrQ_P60-unsplash (Thumb).jpg, entities.show_browser, publications
+
+ITEM Experts, Engage an Expert,
+ assets/img/examples, card-blog16 (Thumb).jpg, entities.show_browser, experts
+
+ITEM Events, Attend an Event,
+ img, sheng-li-AHV8vqJIuqU-unsplash (Thumb).jpg, entities.show_browser, museumevents
+
+ITEM Biographies, Read a Biography,
+ assets/img/examples, card-profile2 (Thumb).jpg, entities.show_browser, biographies
+
+ENDGROUP
+
+# ----------------------------------------------------------------------
+# FILTER
+# ----------------------------------------------------------------------
+
+GROUP FILTER, Select filters from the six classes of categories using our the OneMuseum controlled vocabularies
+
+ITEM Named Places, Search for Places,
+ assets/img/examples, card-blog12 (Thumb).jpg, entities.show_browser, namedplaces
+
+ITEM Named Events, Search for Historical Events,
+ assets/img/examples, card-blog18 (Thumb).jpg, entities.show_browser, namedevents
+
+ITEM Persons/Organisation, Search for Persons and Organisations,
+ assets/img/examples, card-blog13 (Thumb).jpg, entities.show_browser, perorgs
+
+ITEM Curricula, Search for Curriculum Elements,
+ assets/img, pricing4.jpg, entities.show_browser, curriculumelements
+
+ITEM Subjects, Search for Subjects,
+ assets/img, card-blog3 (Thumb).jpg, entities.show_browser, subjects
+
+ITEM Item Types, Search for Item Types, assets/img,
+ card-blog2 (Thumb).jpg, entities.show_browser, itemtypes
+
+ENDGROUP
+
+# ----------------------------------------------------------------------
+# MANAGE
+# ----------------------------------------------------------------------
+
+GROUP MANAGE, Manage your own information/create your own experience
+
+ITEM Profile, My Profile,
+ assets/img, bg44 (Thumb).jpg, users.account
+
+ITEM Favourites, My Favourites,
+ assets/img, bg44 (Thumb).jpg, users.favourites
+
+ITEM My History, Pages Visited,
+ assets/img, bg44 (Thumb).jpg, users.history
+
+ENDGROUP
+
+
+# ----------------------------------------------------------------------
+# REFERENCE
+# ----------------------------------------------------------------------
+
+GROUP REFERENCE, Additional Reference Information for All users
+
+ITEM Chenhall, Find an Item Type,
+ assets/img, bg44 (Thumb).jpg, entities.show_browser, chenhall
+
+ENDGROUP

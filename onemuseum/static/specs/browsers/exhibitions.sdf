@@ -1,0 +1,24 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT exhibition
+ENTITY exhibitions
+TITLE Visit an Exhibition 
+PERPAGE 20
+FROM Exhibitions e
+ LEFT JOIN Museums m on e.MuseumID = m.GUID
+ LEFT JOIN ExhibitionTypes et ON e.ExhibitionTypeID = et.GUID
+BROWSER SELECT e.GUID as guid,
+   IsUserFavourite(%(userid)s, e.GUID) AS Star,
+   e.Name AS Exhibition,
+   e.DateDescription AS DateDescription,
+   m.Name As Museum,
+   et.Name AS Type, e.ExhibitionTypeID
+ORDER Name, e.Name
+WHERE e.Name LIKE %(search)s
+ OR et.Name LIKE %(search)s
+ OR m.Name LIKE %(search)s
+ OR e.DateDescription LIKE %(search)s
+FIELD Exhibition, 2
+FIELD Museum, 3
+FIELD Type, 3
+FIELD DateDescription, 3

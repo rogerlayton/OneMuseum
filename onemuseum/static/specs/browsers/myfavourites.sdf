@@ -1,0 +1,18 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT myFavourite
+ENTITY myfavourites
+TITLE My Favourites
+PERPAGE 20
+BROWSER SELECT u.RefGUID as guid,
+   IsUserFavourite(%(userid)s, u.RefGUID) AS Star,
+   u.ETName AS Type,
+   u.EntityName AS Entity,
+   u.ETName AS ETName
+FROM UserEntities u
+ORDER u.ETName, u.EntityName
+WHEREFIXED u.UserID = %(userid)s
+WHERE u.ETName LIKE %(search)s
+ OR u.EntityName LIKE %(search)s
+FIELD Type, 2
+FIELD Entity, 9

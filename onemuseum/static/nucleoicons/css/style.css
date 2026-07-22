@@ -1,0 +1,572 @@
+/*--------------------------------
+
+Nucleo Web Font
+Generated using nucleoapp.com
+
+-------------------------------- */
+@font-face {
+  font-family: 'Nucleo';
+  src: url('../fonts/Nucleo.eot');
+  src: url('../fonts/Nucleo.eot') format('embedded-opentype'), url('../fonts/Nucleo.woff2') format('woff2'), url('../fonts/Nucleo.woff') format('woff'), url('../fonts/Nucleo.ttf') format('truetype'), url('../fonts/Nucleo.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/*------------------------
+	base class definition
+-------------------------*/
+.om-icons {
+  display: inline-block;
+  font: normal normal normal 1em/1 'Nucleo';
+  speak: none;
+  text-transform: none;
+  /* Better Font Rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/*------------------------
+  change icon size
+-------------------------*/
+/* relative units */
+.om-icons-sm {
+  font-size: 0.8em;
+}
+.om-icons-lg {
+  font-size: 1.2em;
+}
+/* absolute units */
+.om-icons-16 {
+  font-size: 16px;
+}
+.om-icons-32 {
+  font-size: 32px;
+}
+/*----------------------------------
+  add a square/circle background
+-----------------------------------*/
+.om-icons-bg-square,
+.om-icons-bg-circle {
+  padding: 0.35em;
+  background-color: #eee;
+}
+.om-icons-bg-circle {
+  border-radius: 50%;
+}
+/*------------------------------------
+  use icons as list item markers
+-------------------------------------*/
+.om-icons-ul {
+  padding-left: 0;
+  list-style-type: none;
+}
+.om-icons-ul > li {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1.4;
+}
+.om-icons-ul > li > .om-icons {
+  margin-right: 0.4em;
+  line-height: inherit;
+}
+/*------------------------
+  spinning icons
+-------------------------*/
+.om-icons-is-spinning {
+  -webkit-animation: om-icons-spin 2s infinite linear;
+  -moz-animation: om-icons-spin 2s infinite linear;
+  animation: om-icons-spin 2s infinite linear;
+}
+@-webkit-keyframes om-icons-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-moz-keyframes om-icons-spin {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@keyframes om-icons-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+/*------------------------
+  rotated/flipped icons
+-------------------------*/
+.om-icons-rotate-90 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.om-icons-rotate-180 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.om-icons-rotate-270 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+.om-icons-flip-y {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+  -webkit-transform: scale(-1, 1);
+  -moz-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  -o-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+.om-icons-flip-x {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: scale(1, -1);
+  -moz-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
+  -o-transform: scale(1, -1);
+  transform: scale(1, -1);
+}
+/*------------------------
+	icons
+-------------------------*/
+
+.icon-temple::before {
+  content: "\ea02";
+}
+
+.icon-temple-2::before {
+  content: "\ea03";
+}
+
+.icon-temple-3::before {
+  content: "\ea04";
+}
+
+.icon-temple-5::before {
+  content: "\ea05";
+}
+
+.icon-temple-4::before {
+  content: "\ea06";
+}
+
+.icon-presentation-5::before {
+  content: "\ea07";
+}
+
+.icon-presentation-1::before {
+  content: "\ea08";
+}
+
+.icon-presentation-2::before {
+  content: "\ea09";
+}
+
+.icon-presentation-3::before {
+  content: "\ea0a";
+}
+
+.icon-presentation-4::before {
+  content: "\ea0b";
+}
+
+.icon-a-time-1::before {
+  content: "\ea0c";
+}
+
+.icon-temple-7::before {
+  content: "\ea0d";
+}
+
+.icon-book-open-2-3::before {
+  content: "\ea0e";
+}
+
+.icon-book::before {
+  content: "\ea0f";
+}
+
+.icon-filter-organization-1::before {
+  content: "\ea10";
+}
+
+.icon-folder-13::before {
+  content: "\ea11";
+}
+
+.icon-folder-16::before {
+  content: "\ea12";
+}
+
+.icon-filter-tool-1::before {
+  content: "\ea13";
+}
+
+.icon-log-in-1::before {
+  content: "\ea14";
+}
+
+.icon-log-out-1::before {
+  content: "\ea15";
+}
+
+.icon-single-05-1::before {
+  content: "\ea16";
+}
+
+.icon-a-time-2::before {
+  content: "\ea17";
+}
+
+.icon-temple-6::before {
+  content: "\ea18";
+}
+
+.icon-book-open-2-1::before {
+  content: "\ea19";
+}
+
+.icon-book-open-1::before {
+  content: "\ea1a";
+}
+
+.icon-filter-organization-4::before {
+  content: "\ea1b";
+}
+
+.icon-folder-14-1::before {
+  content: "\ea1c";
+}
+
+.icon-folder-18-1::before {
+  content: "\ea1d";
+}
+
+.icon-filter-tool-2::before {
+  content: "\ea1e";
+}
+
+.icon-gallery-layout-1::before {
+  content: "\ea1f";
+}
+
+.icon-lab-1::before {
+  content: "\ea20";
+}
+
+.icon-log-in-2::before {
+  content: "\ea21";
+}
+
+.icon-log-out-2::before {
+  content: "\ea22";
+}
+
+.icon-single-05-4::before {
+  content: "\ea23";
+}
+
+.icon-a-time-3::before {
+  content: "\ea24";
+}
+
+.icon-temple-8::before {
+  content: "\ea25";
+}
+
+.icon-book-open-2-2::before {
+  content: "\ea26";
+}
+
+.icon-book-open-3::before {
+  content: "\ea27";
+}
+
+.icon-filter-organization-2::before {
+  content: "\ea28";
+}
+
+.icon-folder-14-2::before {
+  content: "\ea29";
+}
+
+.icon-folder-18-2::before {
+  content: "\ea2a";
+}
+
+.icon-filter-tool-3::before {
+  content: "\ea2b";
+}
+
+.icon-gallery-layout-2::before {
+  content: "\ea2c";
+}
+
+.icon-lab-2::before {
+  content: "\ea2d";
+}
+
+.icon-log-out-3::before {
+  content: "\ea2e";
+}
+
+.icon-single-05-2::before {
+  content: "\ea2f";
+}
+
+.icon-a-time-4::before {
+  content: "\ea30";
+}
+
+.icon-temple-9::before {
+  content: "\ea31";
+}
+
+.icon-book-open-2-4::before {
+  content: "\ea32";
+}
+
+.icon-book-open-4::before {
+  content: "\ea33";
+}
+
+.icon-filter-organization-3::before {
+  content: "\ea34";
+}
+
+.icon-folder-14-3::before {
+  content: "\ea35";
+}
+
+.icon-folder-18-3::before {
+  content: "\ea36";
+}
+
+.icon-filter-tool-5::before {
+  content: "\ea37";
+}
+
+.icon-gallery-layout-3::before {
+  content: "\ea38";
+}
+
+.icon-lab-3::before {
+  content: "\ea39";
+}
+
+.icon-log-out-4::before {
+  content: "\ea3a";
+}
+
+.icon-single-05-3::before {
+  content: "\ea3b";
+}
+
+.icon-log-in-3::before {
+  content: "\ea3c";
+}
+
+.icon-filter-tool-4::before {
+  content: "\ea3d";
+}
+
+.icon-gallery-layout-4::before {
+  content: "\ea3e";
+}
+
+.icon-lab-4::before {
+  content: "\ea3f";
+}
+
+.icon-presentation-6::before {
+  content: "\ea40";
+}
+
+.icon-presentation-7::before {
+  content: "\ea41";
+}
+
+.icon-presentation-8::before {
+  content: "\ea42";
+}
+
+.icon-presentation-9::before {
+  content: "\ea43";
+}
+
+.icon-presentation-10::before {
+  content: "\ea44";
+}
+
+.icon-saved-items-1::before {
+  content: "\ea45";
+}
+
+.icon-saved-items-2::before {
+  content: "\ea46";
+}
+
+.icon-saved-items-3::before {
+  content: "\ea47";
+}
+
+.icon-saved-items-4::before {
+  content: "\ea48";
+}
+
+.icon-fav-list-1::before {
+  content: "\ea49";
+}
+
+.icon-fav-list-2::before {
+  content: "\ea4a";
+}
+
+.icon-fav-list-3::before {
+  content: "\ea4b";
+}
+
+.icon-fav-list-4::before {
+  content: "\ea4c";
+}
+
+.icon-star-rate-1::before {
+  content: "\ea4d";
+}
+
+.icon-star-rate-6::before {
+  content: "\ea4e";
+}
+
+.icon-star-rate-2::before {
+  content: "\ea4f";
+}
+
+.icon-star-rate-3::before {
+  content: "\ea50";
+}
+
+.icon-star-rate-4::before {
+  content: "\ea51";
+}
+
+.icon-star-rate-5::before {
+  content: "\ea52";
+}
+
+.icon-log-in-4::before {
+  content: "\ea53";
+}
+
+.icon-exhibition-1::before {
+  content: "\ea54";
+}
+
+.icon-exhibition-2::before {
+  content: "\ea55";
+}
+
+.icon-exhibition-3::before {
+  content: "\ea56";
+}
+
+.icon-exhibition-4::before {
+  content: "\ea57";
+}
+
+.icon-exhibition-5::before {
+  content: "\ea58";
+}
+
+.icon-reading-1::before {
+  content: "\ea59";
+}
+
+.icon-reading-2::before {
+  content: "\ea5a";
+}
+
+.icon-reading-3::before {
+  content: "\ea5b";
+}
+
+.icon-reading-4::before {
+  content: "\ea5c";
+}
+
+.icon-electronic-circuit-1::before {
+  content: "\ea5d";
+}
+
+.icon-electronic-circuit-2::before {
+  content: "\ea5e";
+}
+
+.icon-electronic-circuit-3::before {
+  content: "\ea5f";
+}
+
+.icon-electronic-circuit-4::before {
+  content: "\ea60";
+}
+
+.icon-migration-1::before {
+  content: "\ea61";
+}
+
+.icon-migration-2::before {
+  content: "\ea62";
+}
+
+.icon-migration-3::before {
+  content: "\ea63";
+}
+
+.icon-migration-4::before {
+  content: "\ea64";
+}
+
+.icon-board-51-1::before {
+  content: "\ea65";
+}
+
+.icon-board-51-3::before {
+  content: "\ea66";
+}
+
+.icon-board-51-5::before {
+  content: "\ea67";
+}
+
+.icon-board-51-4::before {
+  content: "\ea68";
+}
+
+.icon-board-51-2::before {
+  content: "\ea69";
+}
+

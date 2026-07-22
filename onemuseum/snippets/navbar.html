@@ -1,0 +1,42 @@
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-white navbar-absolute navbar-transparent">
+    <div class="container">
+      <div></div>
+      <div class="navbar-translate">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-bar top-bar"></span>
+          <span class="navbar-toggler-bar middle-bar"></span>
+          <span class="navbar-toggler-bar bottom-bar"></span>
+        </button>
+      </div>
+      <div class="navbar-brand">
+        onemuseum.net
+      </div>
+      <div class="collapse navbar-collapse" data-nav-image="../assets/img//blurred-image-1.jpg" data-color="orange">  
+        <ul class="navbar-nav ml-auto">
+          {% if current_user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
+            </li>
+            <li>
+              <a class="nav-item nav-link" href="{{ url_for('users.signout') }}">Sign Out</a>
+            </li>
+          {% else %}
+            <a href="{{ url_for('users.signin') }}" class="nav-link">
+                <p>Sign In</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url_for('users.signup') }}" class="nav-link">
+                <p>Sign Up</p>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- End Navbar -->

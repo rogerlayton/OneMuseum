@@ -1,0 +1,72 @@
+# import 'macros.html' as macros
+# extends "layout.html"
+# block content
+    {{ macros.browserheader(title, page, search) }}
+    {# NOTE This entity_proc is no lonwer used in pagination2 #}
+    # set entity_proc = 'entities.runbrowser' 
+    {{ macros.pagination2(page, maxpage, pagelist, entity_proc, entity) }}
+
+     
+    # if data.get('Star') == 1
+        # set starfile = 'img/staryellow.png'
+    # else
+        # set starfile = 'img/starempty.png'
+    # endif
+
+    <table class="table table-hover">
+        <thead>
+            <tr class="d-flex">
+                {# set up the column headers #}
+                # for field in fields
+                    <th class="col-{{ field.cols }}">{{ field.name }}</th>
+                # endfor
+                <th class="col-1">
+                    <img src="{{ url_for('static', filename='img/staryellow.png') }}"
+                        style="width:24px; height:24px" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            # for row in data
+                # if "guid" in row
+                    # set GUID = row.guid 
+                # elif "GUID" in row
+                    # set GUID = row.GUID 
+                # endif
+                {#  if this browser has entries from multiple entity types make sure that the right one is opened in details#}
+                # if "object" in row
+                    # set entitytype = row.object
+                # elif "ETName" in row
+                    # set entitytype = row.ETName
+                # else
+                    # set entitytype = object 
+                # endif
+            <tr onclick="window.location='/d/{{ entitytype }}/{{ GUID }}'" 
+                    class="d-flex"
+                    style="cursor:pointer">
+                    {# set up the cell values #}
+                    # for field in fields
+                        # set cell = row[field.name]
+                        <td class="col-{{ field.cols }}">
+                        # if search == ""
+                            {{ cell|replace("None","") }}
+                        # else
+                            {# {{ cell|replace("None","")|replace(search, "<b>"|safe + search + "</b>"|safe) }} #}
+                            {{ cell|replace("None","")|highlight(search)|safe }}   
+                        # endif
+                        </td>
+                    # endfor
+                    <td class="col-1 float-right">
+                        <img src="{{ url_for('static', filename=starfile) }}"
+                            id="row-{{row.guid}}"
+                            title="To set or remove this as a favourite, open up this record and you can do this from the details page."
+                            style="width:24px; height:24px" />
+                    </td>
+            </tr>
+            # endfor
+        </tbody>
+    </table>
+
+    {{ macros.pagination2(page, maxpage, pagelist, entity_proc, entity) }}
+
+# endblock content

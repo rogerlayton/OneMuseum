@@ -1,0 +1,19 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT publication
+ENTITY publications
+TITLE Read a Publication
+PERPAGE 20
+FROM Publications p
+ LEFT JOIN PublicationTypes pt ON p.PublicationTypeID = pt.GUID
+ LEFT JOIN Museums m on m.ParentID = p.GUID
+BROWSER SELECT p.GUID as guid,
+   IsUserFavourite(%(userid)s, p.GUID) AS Star,
+  p.Title AS Publication,
+  m.Name As Museum,
+  pt.Name AS Type, p.PublicationTypeID
+ORDER Name, p.Title
+WHERE p.Title LIKE %(search)s
+FIELD Publication, 5
+FIELD Type, 3
+FIELD Museum, 3

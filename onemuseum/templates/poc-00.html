@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Proof of Concepts</h1>
+    <h2>MariaDB/MySQL Database Access and Updates</h2>
+    <div>
+        <p><a href="{{ url_for('pocs.poc01') }}">POC 1: Basic Select</a></p>
+        <p><a href="{{ url_for('pocs.poc02') }}">POC 2: Basic Select with Sort</a></p>
+        <p><a href="{{ url_for('pocs.poc04') }}">POC 4: Pagination</a></p>
+        <p><a href="{{ url_for('pocs.poc05') }}">POC 5: Image Loading from image repository</a></p>
+        <p><a href="{{ url_for('pocs.poc10') }}">POC 10: dbGetRowFromField</a></p>
+    </div>
+{% endblock content %}

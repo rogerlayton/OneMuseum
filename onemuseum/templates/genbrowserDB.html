@@ -1,0 +1,110 @@
+# import 'macros.html' as macros
+# extends "layout.html"
+# block content
+
+
+    {# {{ macros.browserheader(title, page, search, form) }} #}
+
+    <div class="row">
+        <div class="col-md-6">
+        <h3 class="title mt-0">{{ title }}</h3>
+            <p class="description">
+                Page: {{ page }}<br />Search: {{search}}
+            </p>
+        </div>
+        <div class="col-md-6">
+        <div class="card card-plain card-form-horizontal noborder">
+            <div class="card-body">
+            <form method="POST" action="">
+                {{ form.csrf_token }}
+                {{ form.hidden_tag() }}
+                <div class="row">
+                <div class="col-8">
+                    <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="now-ui-icons ui-1_zoom-bold"></i></span>
+                    </div>
+                    <input type="text" accesskey="s" class="form-control" id="q" name="q" placeholder="search..." value="{{ search }}">
+                    </div>
+                </div>
+                <div class="col-3 offset-1">
+                    <input type="submit" class="btn btn-primary btn-round btn-block" value="Search">
+                </div>
+                </div>
+            </form>
+            </div>
+        </div>
+        </div>
+        </div>
+
+    {# NOTE This entity_proc is no lonwer used in pagination2 #}
+    # set entity_proc = 'entities.runbrowser' 
+    {{ macros.pagination2(page, maxpage, pagelist, entity_proc, entity) }}
+
+
+    <table class="table table-hover">
+        <thead>
+            <tr class="d-flex">
+                {# set up the column headers #}
+                # for field in fields
+                    <th class="col-{{ field.cols }}">{{ field.name }}</th>
+                # endfor
+                <th class="col-1"><img src="{{ url_for('static', filename='img/staryellow.png') }}"  style="width:24px; height:24px" /></th>
+            </tr>
+        </thead>
+        <tbody>
+            # for row in data
+                # if "guid" in row
+                    # set GUID = row.guid 
+                # elif "GUID" in row
+                    # set GUID = row.GUID 
+                # endif
+                {#  if this browser has entries from multiple entity types make sure that the right one is opened in details#}
+                # if "object" in row
+                    # set entitytype = row.object
+                # elif "ETName" in row
+                    # set entitytype = row.ETName
+                # else
+                    # set entitytype = object 
+                # endif
+            <tr onclick="window.location='/d/{{ entitytype }}/{{ GUID }}'" 
+                    class="d-flex"
+                    style="cursor:pointer">
+                    {# set up the cell values #}
+                    # for field in fields
+                        # set cell = row[field.name]
+                        # if search == ""
+                            <td class="col-{{ field.cols }}">
+                                {{ cell|replace("None","") }}
+                            </td>
+                        # else
+                            <td class="col-{{ field.cols }}">
+                                {# {{ cell|replace("None","")|replace(search, "<b>"|safe + search + "</b>"|safe) }} #}
+                                {{ cell|replace("None","")|highlight(search)|safe }}                           </td>
+                        # endif
+                    # endfor
+                    # if row['Star'] == 1
+                        <td class="col-1 float-right">
+                            <a href="javascript: togglefavourite('row-{{row.guid}}');" style="cursor: copy">
+                                <img src="{{ url_for('static', filename='img/staryellow.png') }}"
+                                     id="row-{{row.guid}}"
+                                     onclick="javascript: togglefavourite('row-{{row.guid}}');"
+                                     style="width:24px; height:24px" />
+                            </a>
+                        </th>
+                        # else
+                        <td class="col-1 float-right" onclick="javascript: togglefavourite('row-{{row.guid}}');" style="cursor: copy">
+                            <img src="{{ url_for('static', filename='img/starempty.png') }}"
+                                    id="row-{{row.guid}}"
+                                    onclick="javascript: togglefavourite('row-{{row.guid}}');"
+                                    style="width:24px; height:24px" />
+                        </th>
+                    # endif
+                    </tr>
+            # endfor
+        </tbody>
+    </table>
+
+    {{ macros.pagination2(page, maxpage, pagelist, entity_proc, entity) }}
+
+# endblock content

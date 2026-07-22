@@ -1,0 +1,21 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT collection
+ENTITY collections
+TITLE Explore a Collection
+PERPAGE 20
+BROWSER SELECT c.GUID as guid,
+   IsUserFavourite(%(userid)s, c.GUID) AS Star,
+   m.Name As Museum,
+   c.Name AS Collection,
+   ct.Name AS Type, c.CollectionTypeID
+FROM Collections c 
+ LEFT JOIN CollectionTypes ct ON c.CollectionTypeID = ct.GUID
+ LEFT JOIN Museums m on c.MuseumID = m.GUID
+ORDER Name, c.Name
+WHERE c.name LIKE %(search)s
+ OR ct.Name LIKE %(search)s
+ OR m.Name LIKE %(search)s
+FIELD Collection, 5
+FIELD Type, 3
+FIELD Museum, 3

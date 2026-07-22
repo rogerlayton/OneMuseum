@@ -1,0 +1,79 @@
+# import 'macros.html' as macros
+# extends "layout.html"
+# block content
+ 
+    # if data.get('Star') == 1
+        # set starfile = 'img/staryellow.png'
+    # else
+        # set starfile = 'img/starempty.png'
+    # endif
+
+    <div class='container'>
+        <div class='row'>
+            <div class="col-1" style='text-align:left; vertical-align: middle'>
+                <a href="javascript: togglefavourite('{{ guid}}');" style="cursor: copy">
+                    <img src="{{ url_for('static', filename=starfile) }}"
+                         style="min-width:24px; min-height:24px" />
+                </a>
+            </div>
+            <div class='col-11'>
+                <h2 style='margin-bottom: 0px'> {{ data.get('Name') }} </h2>
+                <p style="font-style:italic">{{ data.get('EntityType') }}</p>
+            </div>
+            <!--
+            <div class='col-6'>
+                <img class="card-img" src="{{ url_for('static', filename='') }}{{ data['imagefolder'] | default('assets/img')}}/{{ data['imagefile'] }}" alt="Card image">
+            </div>
+            -->
+        </div>
+    </div>
+
+    # if hasContent and content != None
+    <hr>
+    <div class='container'>
+        <div class='om-page'>
+            {{ content | safe }}
+        </div>
+    </div>
+    <hr>
+    # endif
+
+    <div class='container'>
+        <div class='row'>
+            <div class='col-md-12 col-lg-6'>
+                <table class='table'>
+                    <h3>Core Data</h3>
+                    <tbody>
+                        # for name, value in data.items()
+                        # if name not in ['DisplayName', 'GUID', 'guid', 'EntityType', 'Name', 'UserID', 'Star']
+                            # if value is not none
+                                <tr class='d-flex'>
+                                    <td class='col-3'>{{ name }}</td>
+                                    <td class='col-9'>{{ value | replace("None","") }}</td>
+                                </tr>
+                            # endif
+                        # endif
+                        # endfor
+                    </tbody>
+                </table>
+            </div>
+ 
+            <div class='col-md-12 col-lg-6'>
+                <table class='table'>
+                    # if commondata != []
+                        <h3>Extended Data</h3>
+                        <tbody>
+                            # for element in commondata
+                            <tr class='d-flex'>
+                                <td class='col-3'>{{ element['Type'] }}</td>
+                                <td class='col-9'>{{ element['Value'] }}</td>
+                            </tr>
+                            # endfor
+                        </tbody>
+                    # endif
+                </table>
+        </div>
+    </div>
+
+
+# endblock content

@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block content %}
+    {{ macros.browserheader(title|default('NO TITLE PROVIDED', true)) }}
+    <div class="container"
+    <p>When completed this will {{ content|default('NO CONTENT PROVIDED', true) }}</p>
+    </div>
+{% endblock content %}

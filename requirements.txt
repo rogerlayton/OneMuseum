@@ -1,0 +1,40 @@
+# OneMuseum runtime requirements (Linux-installable).
+# Dev/notebook/lint/test tooling lives in requirements-dev.txt.
+#
+# Flask bumped 2.2.2 -> 3.1.3 (see D-003): Flask 2.2.2 could not run under
+# Werkzeug 3.x (ImportError: url_quote from werkzeug.urls). Flask 3.1 requires
+# Werkzeug>=3.1, itsdangerous>=2.2, blinker>=1.9 — all satisfied below.
+
+Flask==3.1.3
+Werkzeug==3.1.8
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+itsdangerous==2.2.0
+click==8.1.7
+blinker==1.9.0
+
+Flask-Bcrypt==1.0.1
+bcrypt==4.0.1
+Flask-Login==0.6.3
+Flask-Mail==0.9.1
+Flask-WTF==1.2.2
+WTForms==3.2.2
+email-validator==1.3.0
+dnspython==2.2.1
+
+gunicorn==20.1.0
+
+# Database (MariaDB / MySQL) — the driver dbutils.py imports as mysql.connector
+mysql-connector==2.2.9
+
+# Content / rendering
+Markdown==3.10.2
+markdown-katex==202406.1035
+html-sanitizer==1.9.3
+beautifulsoup4==4.11.1
+soupsieve==2.9.1
+lxml==6.1.1
+Pillow==12.3.0
+
+python-dotenv==0.21.0
+python-dateutil==2.9.0.post0

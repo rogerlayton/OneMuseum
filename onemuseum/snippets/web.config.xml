@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <system.webServer>
+        <handlers>
+            <add name="Flask Handler" path="*" verb="*" modules="FastCgiModule" scriptProcessor="C:\inetpub\wwwroot\onemuseumnet\wfastcgi.exe" resourceType="Unspecified" />
+        </handlers>
+		    <httpPlatform>
+			  <environmentVariables>
+				<environmentVariable name="SERVER_PORT" value="80" />
+				<environmentVariable name="FLASK_APP" value="app.py" />
+				<environmentVariable name="FLASK_ENV" value="development" />
+				<environmentVariable name="FLASK_DEBUG" value="0" />
+				<environmentVariable name="SECRET_KEY" value="4a2c5fc6fdaee4d9beb6e3cbfa5dfc69" />
+				<environmentVariable name="MYSQLCONN_USER" value="root" />
+				<environmentVariable name="MYSQLCONN_PASSWORD" value="Ondini.1953" />
+				<environmentVariable name="MYSQLCONN_HOST" value="41.76.209.95" />
+				<environmentVariable name="MYSQLCONN_PORT" value="3316" />
+				<environmentVariable name="MYSQLCONN_DATABASE" value="OneMuseum2" />
+				<environmentVariable name="MAIL_HOST" value="smtp.googlemail.com" />
+				<environmentVariable name="MAIL_USERNAME" value="rogerdlayton" />
+				<environmentVariable name="MAIL_PASSWORD" value="Rla.12345!" />
+			  </environmentVariables>
+		</httpPlatform>
+		
+    </system.webServer>
+	<appSettings>
+	  <add key="PYTHONPATH" value="c:\inetpub\wwwroot\onemuseumnet"/>
+	  <!-- The handler here is specific to Bottle; see the next section. -->
+	  <add key="WSGI_HANDLER" value="app.py"/>
+	  <add key="WSGI_LOG" value="c:\inetpub\Logs\LogFiles\wfastcgi.log"/>
+	</appSettings>
+</configuration>

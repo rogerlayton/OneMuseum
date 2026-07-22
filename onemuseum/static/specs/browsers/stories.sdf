@@ -1,0 +1,27 @@
+#SDF#1
+!TEMPLATE BROWSER
+OBJECT story
+ENTITY stories
+TITLE Read a Story 
+PERPAGE 20
+FROM Stories s
+ LEFT JOIN Museums m on s.MuseumID = m.GUID
+ LEFT JOIN StoryTypes st ON s.StoryTypeID = st.GUID
+BROWSER SELECT s.GUID as guid,
+   IsUserFavourite(%(userid)s, s.GUID) AS Star,
+   m.Name AS Museum,
+   s.Name AS Title,
+   s.Description AS Description,
+   s.Keywords AS Keywords,
+   st.Name AS Type, s.StoryTypeID
+ORDER Name, s.Name
+WHERE s.name LIKE %(search)s
+ OR st.Name LIKE %(search)s
+ OR m.Name LIKE %(search)s
+ OR s.Description LIKE %(search)s
+ OR s.Keywords LIKE %(search)s
+FIELD Title, 3
+FIELD Museum, 2
+FIELD Type, 1
+FIELD Description, 4
+FIELD Keywords, 1
