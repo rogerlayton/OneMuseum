@@ -9,11 +9,20 @@ decisions (**D-nnn**). Status: OPEN · IN-PROGRESS · DONE · PARKED.
 
 - **v0.11** — preserved prior working version (the specification / ground truth).
 - **v1.0.0** — cleanup & Flask-layout restructure (D-001, D-002).
-- **v1.0.1** — + Flask 3 dependency resolution (D-003). *This release.*
-- **v1.x** — small behaviour-preserving increments (asset diet, dev/runtime
-  requirements split hardening, snippet/POC housekeeping).
-- **later minor** — containerization against MariaDB.
-- **later major** — Postgres migration; UI reframe. Each its own increment.
+- **v1.0.1** — + Flask 3 dependency resolution (D-003).
+- **v1.0.2** — fresh-repo git baseline; prior GitHub history abandoned
+  (archived as `OneMuseum-V0.11-old`); tagged on new remote (D-004). Baseline/
+  repo-reset only — no app code change. *This release.*
+- **next (the D-005 layered plan, in order):** F-008 dbutils error surfacing
+  -> F-009 switchable logging -> F-010 test harness. Each its own increment,
+  accepted before coding.
+- **v1.x** — small behaviour-preserving increments (asset diet, snippet/POC
+  housekeeping).
+- **before public launch** — B-003 auth-bypass removal + history scrub;
+  F-006 SQL identifier hardening.
+- **later minor** — containerization against MariaDB (F-002).
+- **later major** — Postgres migration (F-001); UI reframe (F-003). Each its
+  own increment.
 
 ---
 
@@ -30,6 +39,19 @@ decisions (**D-nnn**). Status: OPEN · IN-PROGRESS · DONE · PARKED.
   causing `TypeError`. Pre-existing (present in v0.11); exposed once the SDF
   loader path was fixed (D-002). Test-only; app code unaffected. Status:
   **OPEN**.
+
+## Security / launch blockers
+
+- **B-003 — hardcoded auth-bypass ("FORCED SIGN IN").** `onemuseum/users/
+  routes.py` contains two blocks that log a user in **without a valid
+  password** when the email matches a hardcoded address: `signin()` bypasses
+  for `roger107@rl.co.za` **or** `linkmunirih@gmail.com`; `signin_reauth()`
+  bypasses for `roger107@rl.co.za`. Intentional dev backdoor, not a defect.
+  **Roger's ruling (2026-07-22): keep for now.** MUST be removed **and scrubbed
+  from git history** before onemuseum.net is "truly available for general use"
+  — it is now committed on the public-track repo (v1.0.2), so removal later is
+  a history-rewrite, not just a delete. Do not exercise it; remove only when
+  asked. Status: **OPEN — deferred by Roger; blocks public launch.**
 
 ## Features / tasks (parked unless noted)
 
@@ -73,8 +95,30 @@ decisions (**D-nnn**). Status: OPEN · IN-PROGRESS · DONE · PARKED.
   **PARKED**.
 
 - **F-008 — dbutils error surfacing.** DB layer flashes errors to the UI and
-  returns `False` into calling code (half-silent). Methodology prefers a clear
-  errors channel over fallbacks. Status: **PARKED**.
+  returns `False` into calling code (half-silent). Methodology §6 prefers a
+  clear errors channel over silent fallbacks. **Layer 1 of the D-005 plan —
+  the root fix, done first.** Status: **NEXT UP** (D-005).
+
+- **F-009 — switchable logging.** Toggleable verbosity: exception + route +
+  SQL/proc + params. Makes failures observable; pairs with F-008. **Layer 2 of
+  D-005.** Status: **OPEN** (D-005, after F-008).
+
+- **F-010 — test harness (MathGL-modelled, DB-adapted).** Numbered
+  dependency-ordered corpus, mirrored goldens, compare/accept/review runner,
+  deliberate acceptance, seeded/pinned determinism, docs-in-step check (have
+  `tests/test_config_docs.py`), CI `compare` on push. **Prerequisite:** a
+  pinned DB-fixture decision — OneMuseum renders from MariaDB via stored procs,
+  so goldens can't be pure file-renders as in MathGL (fixed seed dataset, or
+  golden against mocked query results; unit likely = route request vs known DB
+  state asserting on rendered HTML). **Layer 3 of D-005, needs F-008 + F-009
+  first.** Status: **OPEN** (D-005).
+
+- **B-004 — equations-lesson 500 / katex fork.** Math lessons 500;
+  `markdown-katex` needs a native `katex` binary absent on the Mac
+  (`NotImplementedError: katex binary not found`); plain lessons render fine.
+  Architectural fork — `npm install katex` (native) vs. client-side KaTeX/
+  MathJax (check MathGL's approach). The anchor case for the D-005 plan; own
+  decision entry when reached — do not one-line. Status: **OPEN**.
 
 ---
 

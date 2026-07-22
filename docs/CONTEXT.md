@@ -54,6 +54,16 @@ See docs/CONFIG.md. Needs the `MYSQLCONN_*` env vars pointing at MariaDB, plus
 - The working prior version is the spec; reproduce first, improve deliberately.
 
 ## Current state
-At **v1.0.1**: cleanup & Flask-layout restructure landed (D-001), MariaDB
-unchanged. Prior working version preserved at tag **v0.11**. Parked next steps
-in docs/BACKLOG.md (Postgres, containerization, UI reframe are the big three).
+At **v1.0.2**: fresh-repo git baseline (D-004). The canonical repo is now
+**github.com/rogerlayton/OneMuseum** (branch `main`, tag `v1.0.2`), pushed
+2026-07-22. Prior GitHub history was deliberately abandoned and archived as
+**`OneMuseum-V0.11-old`** — tags `v0.11` and `v1.0.1` survive only there, not
+on the new remote. v1.0.2 is baseline-only: the tree is v1.0.1 plus doc
+updates, no app code change.
+
+**Immediate next work** is the D-005 layered plan, in order: **F-008** (dbutils
+error surfacing) -> **F-009** (switchable logging) -> **F-010** (test harness,
+MathGL-modelled). Anchor case: **B-004** equations-lesson 500 (katex fork).
+**Launch blocker:** **B-003** auth bypass (kept for now; must remove + scrub
+before public). Bigger parked items (Postgres F-001, containerization F-002,
+UI reframe F-003) remain in docs/BACKLOG.md.
