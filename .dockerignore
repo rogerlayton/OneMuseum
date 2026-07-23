@@ -24,3 +24,18 @@
 **/secrets.dev.yaml
 **/values.dev.yaml
 README.md
+
+# --- Added: keep the image small and free of host artefacts ---
+.venv
+venv
+**/*.pyc
+**/.pytest_cache
+**/.mypy_cache
+.DS_Store
+SQL
+docs
+tests
+updates
+_DevNotes
+_tests_sample_modules
+doctor.py

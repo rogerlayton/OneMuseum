@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_wtf.csrf import CSRFProtect
 
-from .config import Config
+from .config import Config, validate_config
 
 bcrypt = Bcrypt()
 login_manager = LoginManager()
@@ -19,6 +19,9 @@ csrf_protection = CSRFProtect()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+
+    # F-012: fail fast and loudly, before anything else can depend on config.
+    validate_config(app.config)
 
     bcrypt.init_app(app)
     login_manager.init_app(app)

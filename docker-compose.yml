@@ -1,0 +1,52 @@
+# Development MariaDB for OneMuseum.
+#
+#   docker compose up -d      start
+#   docker compose down       stop (data is preserved in the named volume)
+#   docker compose logs -f db  follow logs
+#
+# Data lives in the named volume `onemuseum-mariadb-data`, which is a separate
+# object from the container: removing the container does NOT remove the data.
+# `docker compose down -v` DOES remove it — do not use -v unless you intend to
+# destroy the database.
+#
+# The root password is read from MARIADB_ROOT_PASSWORD in your .env file.
+# NOTE: this value only takes effect when the volume is FIRST initialised. On an
+# already-initialised volume it is ignored; change the password with ALTER USER
+# inside the running container instead.
+
+services:
+  db:
+    # Pinned to match the image the database was created under. Do not bump
+    # casually: see the --lower-case-table-names note below.
+    image: mariadb:10.6
+    container_name: onemuseum-mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:?set MARIADB_ROOT_PASSWORD in .env}
+    # ESSENTIAL. The dump originates from a Windows MariaDB where table names
+    # are case-insensitive; inside the Linux container they are case-sensitive
+    # by default. Without this flag the dump loads and then fails mysteriously
+    # at query time. It is baked into the data directory at first
+    # initialisation and CANNOT be changed later without destroying and
+    # recreating the volume.
+    command: --lower-case-table-names=1
+
+    ports:
+      # Host port 3306 -> container 3306. Matches MYSQLCONN_PORT in .env.
+      - "3306:3306"
+    volumes:
+      - onemuseum-mariadb-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  onemuseum-mariadb-data:
+    # Pre-existing volume created by the original `docker run`. Declared
+    # external so Compose attaches to it rather than creating a new one and
+    # silently starting from an empty database.
+    external: true
+    name: onemuseum-mariadb-data
