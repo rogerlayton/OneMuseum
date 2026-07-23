@@ -107,3 +107,4 @@ venv.bak/
 settings.json
 
 .DS_Store
+env.sh
