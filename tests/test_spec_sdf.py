@@ -41,7 +41,7 @@ def test_menus():
             assert file_extension.upper() == ".SDF"
             menu_spec = sdf_menu(file_name)
             assert menu_spec['title'] != ''
-            for item in menu_spec.items:
+            for item in menu_spec['items']:
                 assert True
                 # assert item['title'] != ''
                 # assert item['text'] != ''
