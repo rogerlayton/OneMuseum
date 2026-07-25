@@ -69,7 +69,7 @@ archive:  ## Zip committed files at a tag: make archive VERSION=v1.0.4
 	@VER="$(VERSION)"; \
 	if [ -z "$$VER" ]; then VER=$$(git describe --tags --abbrev=0); fi; \
 	SAFE=$$(echo "$$VER" | sed 's/\./_/g'); \
-	OUT="OneMuseum-$$SAFE-HEAD.zip"; \
+	OUT="../OneMuseum-$$SAFE-HEAD.zip"; \
 	echo "archiving $$VER -> $$OUT"; \
 	git archive --format=zip --prefix="OneMuseum-$$SAFE/" -o "$$OUT" "$$VER"; \
 	ls -lh "$$OUT"
