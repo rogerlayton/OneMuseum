@@ -45,38 +45,68 @@ from .entities.forms import SearchForm
 # TEST_USER = 'D3C661FA-6E5D-430D-B4CD-7B7C7BFDB764'
 
 
+class DBConnectionError(RuntimeError):
+    '''Raised when a database connection cannot be established.
+
+    Carries the originating mysql.connector error as __cause__, so the real
+    driver message and errno are never lost.
+    '''
+
+
 def dbOpen():
     ''' Open the connection to the database using the environment variables set up '''
+    # F-013: this function previously caught the connection error, printed it,
+    # and then fell through to `return DBCONN` — a name that was never assigned
+    # when connect() failed. That raised UnboundLocalError, which is not a
+    # mysql.connector.Error, so it escaped every caller's except clause and
+    # surfaced from `finally: dbClose(DBCONN)` instead. The traceback pointed
+    # one frame away from the real fault and the actual database error had
+    # already been swallowed by print(). It now raises DBConnectionError
+    # naming the target, and chains the driver error as __cause__.
     try:
-        DBCONN = mysql.connector.connect(
+        return mysql.connector.connect(
             host=Config.MYSQLCONN_HOST,
             port=Config.MYSQLCONN_PORT,
             user=Config.MYSQLCONN_USER,
             password=Config.MYSQLCONN_PASSWORD,
             database=Config.MYSQLCONN_DATABASE)
     except mysql.connector.Error as err:
-        # TODO: fix up the error handling for when any error occur here
+        # The password is deliberately never included in this message.
+        target = (f"{Config.MYSQLCONN_USER}@{Config.MYSQLCONN_HOST}"
+                  f":{Config.MYSQLCONN_PORT}/{Config.MYSQLCONN_DATABASE}")
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Cannot log in with this user name / password")
+            detail = ("Access denied — the user name or password is wrong, or "
+                      "this user is not permitted to connect from this host.")
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Cannot find this database")
+            detail = (f"Database '{Config.MYSQLCONN_DATABASE}' does not exist "
+                      "on this server.")
+        elif err.errno == errorcode.CR_CONN_HOST_ERROR:
+            detail = ("Cannot reach the server — it is not running, the port is "
+                      "wrong, or a container is not started. Note that a "
+                      "container cannot reach the host at 127.0.0.1.")
         else:
-            print(err)
-    finally:
-        pass
-    return DBCONN
+            detail = str(err)
+        raise DBConnectionError(
+            f"Cannot connect to the database as {target}. {detail} "
+            f"Run 'python doctor.py' to check the configuration."
+        ) from err
 
 
 def dbClose(DBCONN):
     ''' close the connection '''
+    # Tolerates None so that a caller's `finally: dbClose(DBCONN)` is safe when
+    # dbOpen() raised and DBCONN was never bound to a connection.
+    if DBCONN is None:
+        return
     try:
         DBCONN.close()
-    finally:
+    except Exception:
         pass  # if error then do nothing - may already be closed.
 
 
 def dbExists(aTable, aField, aValue):
     '''Does this row exist in this table?'''
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         C = None
         DBCONN = dbOpen()
@@ -98,6 +128,7 @@ def dbExists(aTable, aField, aValue):
 
 def dbGetRowFromTable(aTable, aGUID):
     '''Return a single row from a table'''
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         C = None
         DBCONN = dbOpen()
@@ -117,6 +148,7 @@ def dbGetRowFromTable(aTable, aGUID):
 
 def dbGetRow(aTable, aGUID):
     '''Return a single row from a table'''
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         C = None
         DBCONN = dbOpen()
@@ -136,6 +168,7 @@ def dbGetRow(aTable, aGUID):
 
 def dbGetAll(aSQL, aArgs):
     ''' extract records from the database '''
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         DBCONN = dbOpen()
         C = DBCONN.cursor()
@@ -155,6 +188,7 @@ def dbGetAll(aSQL, aArgs):
 
 def dbGetScalar(aSQL, aArgs):
     ''' Get a single scalar data from database query '''
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         DBCONN = dbOpen()
         C = DBCONN.cursor()
@@ -173,6 +207,7 @@ def dbGetScalar(aSQL, aArgs):
 
 def dbGetDict(aSQL, aArgs):
     ''' Get data rows from database and return as dict '''
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         DBCONN = dbOpen()
         C = DBCONN.cursor()
@@ -194,6 +229,7 @@ def dbGetDict(aSQL, aArgs):
 
 def dbGetCategoryName(aGUID):
     ''' Get the class and title from a Categorization entry '''
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         DBCONN = dbOpen()
         C = DBCONN.cursor()
@@ -211,6 +247,7 @@ def dbGetCategoryName(aGUID):
 
 def dbExecute(aSQL, aArgs):
     ''' generin running of an SQL statement with arguments'''
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         DBCONN = dbOpen()
         C = DBCONN.cursor()
@@ -228,6 +265,7 @@ def dbExecute(aSQL, aArgs):
 def dbProcedure(aProcedure, args=()):
     """Execute a stored procedure and return multiple recordsets as lists"""
     results = []
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         DBCONN = dbOpen()
         C = DBCONN.cursor()
@@ -247,6 +285,7 @@ def dbProcedureDict(aProcedure, aArgs):
     """Execute a stored procedure and return multiple recordsets as dictionaries """
     columns = []
     results = []
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         DBCONN = dbOpen()
         C = DBCONN.cursor()
@@ -265,6 +304,7 @@ def dbProcedureDict(aProcedure, aArgs):
 
 def dbExecuteWithResults(aSQL, aArgs):
     ''' Use procedure to return a single row '''
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         DBCONN = dbOpen()
         C = DBCONN.cursor(prepared=True)
@@ -280,6 +320,7 @@ def dbExecuteWithResults(aSQL, aArgs):
 
 def dbInsert(aTable, aFieldNames, aArgs):
     ''' generic INSERT function '''
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         DBCONN = dbOpen()
         C = DBCONN.cursor()
@@ -304,6 +345,7 @@ def dbUpdate(aTable, aFieldNames, aValues):
     One of the fields (generally the first) must be the guid PK for the table.
     '''
 
+    DBCONN = None  # F-013: bind before try, so finally: dbClose() is safe
     try:
         DBCONN = dbOpen()
         C = DBCONN.cursor()

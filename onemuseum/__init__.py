@@ -38,6 +38,11 @@ def create_app(config_class=Config):
     from .request_hooks import register_request_hooks
     register_request_hooks(app)
 
+    # Administrative CLI commands (create-user, list-users). Terminal-only,
+    # isolated from the web UI by design.
+    from .cli import register_cli
+    register_cli(app)
+
     # Blueprints
     from .pocs.routes import pocs
     from .entities.routes import entities
