@@ -122,6 +122,50 @@ decisions (**D-nnn**). Status: OPEN · IN-PROGRESS · DONE · PARKED.
 
 ---
 
+## v1.0.5 session — completed & newly found (2026-07-25)
+
+- **F-013 — dbutils connection error surfacing.** (The concrete instance of
+  F-008, Layer 1 of D-005.) `dbOpen()` raised `UnboundLocalError` on failure,
+  masking the real cause and surfacing from callers' `finally: dbClose()`. Now
+  raises `DBConnectionError` chaining the driver error; `dbClose(None)` safe;
+  `DBCONN` bound before each try. 11 no-DB regression tests added. Status:
+  **DONE** (v1.0.5). See `APPLY-v1.0.5.md`.
+
+- **F-015 — diagnostic logging.** (= F-009, Layer 2 of D-005.) Unblocked by
+  F-013; build on `DBConnectionError`. Status: **OPEN** — next feature.
+
+- **B-005 — unconfirmed accounts can sign in.** `signin()` does not gate on
+  `email_confirmed`; live session data shows unconfirmed bot accounts with
+  sessions. Email confirmation currently protects nothing. Status: **OPEN**.
+  Launch-blocker.
+
+- **B-006 — B-003 bypass is broader + crashes.** The hardcoded force-login is
+  in **both** `signin()` and `signin_reauth()`. On an unknown email, `user` is
+  `None` and `elif user.email == ...` raises `AttributeError` (login attempt
+  500s). Fold into B-003 removal. Status: **OPEN**. Launch-blocker.
+
+- **B-007 — plaintext passwords in legacy data.** `_TEST_USER` and
+  `ninalayton` stored the literal `password` (not a bcrypt hash) with distinct
+  role GUIDs — likely part of the B-003 mechanism. Present in the live DB;
+  removed in the laptop wipe. Status: **OPEN** (investigate with B-003).
+
+- **F-016 — registration hardening before `/signup` reopens.** Open `/signup`
+  had no CAPTCHA or rate limit; ~90 bot signups resulted. Closed for now via
+  `SIGNUP_ENABLED` (default off) on the laptop and by route edit on live.
+  Proper controls: rate limiting, CAPTCHA/Turnstile, confirmed-email gating.
+  Status: **OPEN**. Launch-blocker.
+
+- **F-014 note — credential model is awkward.** `onemuseum_app` lacks
+  `LOCK TABLES` / `SHOW VIEW`; socket vs TCP are different grants; the
+  container root password is a phantom (volume pre-existed). Full detail and
+  rebuild guidance in `docs/DB-ACCESS.md`. Feeds the F-014 rebuild work.
+
+- **Admin tooling (built this session, DONE):** `Makefile`, admin CLI
+  (`create-user`, `reset-password`, `check-login`, `list-users`),
+  `scripts/db.sh` + `docs/DB-ACCESS.md`, `SQL/DEV-wipe-users.sql`.
+
+---
+
 ## Planning inputs awaiting intake
 
 - Workbook scans (much designed work "never installed" — tag each item
