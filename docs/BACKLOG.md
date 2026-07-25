@@ -122,7 +122,7 @@ decisions (**D-nnn**). Status: OPEN · IN-PROGRESS · DONE · PARKED.
 
 ---
 
-## v1.0.5 session — completed & newly found (2026-07-25)
+## v1.0.4 session — completed & newly found (2026-07-25)
 
 - **F-013 — dbutils connection error surfacing.** (The concrete instance of
   F-008, Layer 1 of D-005.) `dbOpen()` raised `UnboundLocalError` on failure,
@@ -132,7 +132,7 @@ decisions (**D-nnn**). Status: OPEN · IN-PROGRESS · DONE · PARKED.
   **DONE** (v1.0.5). See `APPLY-v1.0.5.md`.
 
 - **F-015 — diagnostic logging.** (= F-009, Layer 2 of D-005.) Unblocked by
-  F-013; build on `DBConnectionError`. Status: **OPEN** — next feature.
+  F-013; build on `DBConnectionError`. Status: **OPEN** — v1.0.5, next feature.
 
 - **B-005 — unconfirmed accounts can sign in.** `signin()` does not gate on
   `email_confirmed`; live session data shows unconfirmed bot accounts with
