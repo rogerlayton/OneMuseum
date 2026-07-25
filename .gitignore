@@ -110,3 +110,4 @@ env.sh
 
 !.vscode/launch.json
 !.vscode/settings.json
+*.zip
