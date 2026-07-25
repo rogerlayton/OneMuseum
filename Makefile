@@ -58,3 +58,18 @@ db-file:  ## Run a .sql file: make db-file FILE=SQL/xxx.sql
 	@test -n "$(FILE)" || { echo "usage: make db-file FILE=SQL/xxx.sql"; exit 1; }
 	@bash scripts/db.sh file "$(FILE)"
 
+# --- release archive --------------------------------------------------------
+
+# Export a clean zip of committed files at the given ref. git archive respects
+# .gitignore, so .env / .venv / caches are never included. VERSION sets both the
+# filename and which ref is exported; defaults to the latest tag.
+#   make archive                 -> uses the most recent tag
+#   make archive VERSION=v1.0.4  -> exports that tag, names the file for it
+archive:  ## Zip committed files at a tag: make archive VERSION=v1.0.4
+	@VER="$(VERSION)"; \
+	if [ -z "$$VER" ]; then VER=$$(git describe --tags --abbrev=0); fi; \
+	SAFE=$$(echo "$$VER" | sed 's/\./_/g'); \
+	OUT="OneMuseum-$$SAFE-HEAD.zip"; \
+	echo "archiving $$VER -> $$OUT"; \
+	git archive --format=zip --prefix="OneMuseum-$$SAFE/" -o "$$OUT" "$$VER"; \
+	ls -lh "$$OUT"
