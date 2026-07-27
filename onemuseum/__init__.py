@@ -6,6 +6,11 @@ from flask_wtf.csrf import CSRFProtect
 
 from .config import Config, validate_config
 
+# Version for the OneMuseum app - always keep this current
+# will appear in the top of the home pade
+
+__version__ = "1.0.5"
+
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 login_manager.login_view = 'users.signin'
@@ -33,6 +38,11 @@ def create_app(config_class=Config):
     app.jinja_env.line_statement_prefix = '#'
     app.jinja_env.line_comment_prefix = '##'
     app.jinja_env.filters['highlight'] = highlight_matches
+
+    # Expose the single-source version string to all templates.
+    @app.context_processor
+    def inject_version():
+        return {"app_version": __version__}
 
     # Register the per-request session/activity hook (moved from former app.py)
     from .request_hooks import register_request_hooks

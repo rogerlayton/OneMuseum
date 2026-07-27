@@ -12,3 +12,9 @@ sys.path.insert(0, myPath + '/../')
     assert 'FLASK_APP' in Config
     assert 'MYSQL_USER' in Config
     assert 'MAIL_HOST' in Config """
+
+
+from onemuseum import __version__
+def test_version_on_page(client):
+    resp = client.get("/")
+    assert f"v {__version__}".encode() in resp.data
