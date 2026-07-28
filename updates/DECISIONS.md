@@ -303,3 +303,31 @@ a history rewrite rather than a simple deletion.
 **Sequencing.** D-006 (application-to-dependency credentials) lands first: it
 is smaller, contained, and unblocks a second developer. D-007 (user-facing
 access control) follows as its own increment.
+
+---
+
+## D-008 — Diagnostic logging is standalone, not an extension of sessiondata (F-015); Amendment Register recorded as absent (F-027)
+**Date:** 2026-07-28 · **Status:** DONE (F-015) / OPEN (F-027) · **Relates:** D-005 (layer 2), F-013, F-015, F-027
+
+**Context.** F-015 was originally noted as "extend `SessionLog` rather than
+write a new logger." Investigation (2026-07-28) found there is no `SessionLog`.
+The nearest table, `sessiondata`, records **user behaviour** — session, URL,
+POST data, search string, entity references — not diagnostics. There are no
+audit/history triggers (`SHOW TRIGGERS` empty) and no amendment table among the
+89 tables.
+
+**Decision (F-015).** Build diagnostic logging as a **standalone** `onemuseum`
+logger (`diaglog.py`), separate from `sessiondata`. Rationale: operational
+diagnostics (exceptions, DB outages, failing queries) are a different concern
+from behavioural analytics, with different readers, retention, and lifecycle;
+merging them would pollute behavioural data with error noise. One line per
+event (`ts | LEVEL | route | message`); errors always logged; `DIAG_LOGGING`
+gates verbose SQL+params; stream destination by config (file on laptop, stderr
+in container). The 500 handler no longer leaks the raw exception. Landed with
+20 no-database tests.
+
+**Finding (F-027).** Roger's standard practice — a generic Amendment Register
+trapping every change across all tables — is **absent** from this database,
+likely lost in the fresh-repo rebuild (D-004). Recorded as F-027 (P2, before
+launch), to be scoped as its own increment: DB triggers vs stored-proc vs
+app-level capture; survival across the Postgres migration (F-001); retention.

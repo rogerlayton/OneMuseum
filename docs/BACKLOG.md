@@ -178,7 +178,7 @@ as it's scoped.*
 
 ### Deferred to next version (P2)
 
-- **F-015 — diagnostic logging.DONE (v1.0.5) ** Built as a standalone onemuseum logger (diaglog.py), not an extension of sessiondata: that table tracks user behaviour (pages, searches, results), a different concern from operational diagnostics (exceptions, DB outages, failing queries). Errors always logged; DIAG_LOGGING gates verbose detail; stream destination by config. See D-nnn.
+- **F-015 — diagnostic logging. DONE (v1.0.5).** Built as a standalone `onemuseum` logger (`diaglog.py`), not an extension of `sessiondata`: that table tracks user behaviour (pages, searches, results), a different concern from operational diagnostics (exceptions, DB outages, failing queries). Errors always logged; `DIAG_LOGGING` gates verbose detail; stream destination by config. See D-008.
 
 - **F-014 — credential-model rebuild.** `onemuseum_app` lacks `LOCK TABLES` /
   `SHOW VIEW`; socket vs TCP are different grants; the container root password
@@ -244,7 +244,7 @@ as it's scoped.*
   single canonical location and remove/redirect the other so there's one
   decisions log. Status: **OPEN (housekeeping).**
 
-  F-027 — Amendment Register (audit trail). A generic change-log trapping every INSERT/UPDATE/DELETE across all tables — old/new values, table, row, user, timestamp — per Roger's standard practice on every schema. Confirmed absent from onemuseum2 (2026-07-28): no audit/history/amendment table among the 89 tables, and SHOW TRIGGERS is empty. Likely lost in the fresh-repo rebuild (D-004) or never carried over. Design questions for its own increment: (a) implementation — DB triggers (automatic, DB-level) vs logging inside the four stored procs (GenDetails, ChenhallDetails, GenCategories, UserEntityFavourite) vs app-level; (b) how it survives the eventual Postgres migration (F-001); (c) retention/query model. Distinct from sessiondata (user behaviour) and diaglog.py (operational diagnostics). Matters before "general use." Status: OPEN.
+  - **F-027 — Amendment Register (audit trail).** A generic change-log trapping every INSERT/UPDATE/DELETE across all tables — old/new values, table, row, user, timestamp — per Roger's standard practice on every schema. Confirmed absent from `onemuseum2` (2026-07-28): no audit/history/amendment table among the 89 tables, and SHOW TRIGGERS is empty. Likely lost in the fresh-repo rebuild (D-004) or never carried over. Design questions for its own increment: (a) implementation — DB triggers (automatic, DB-level) vs logging inside the four stored procs (GenDetails, ChenhallDetails, GenCategories, UserEntityFavourite) vs app-level; (b) how it survives the eventual Postgres migration (F-001); (c) retention/query model. Distinct from sessiondata (user behaviour) and `diaglog.py` (operational diagnostics). Matters before "general use." Status: **OPEN.**
 
 - **B-002 — `test_menus` reference bug.** `tests/test_spec_sdf.py::test_menus`
   references `menu_spec.items` (the built-in method object) instead of
