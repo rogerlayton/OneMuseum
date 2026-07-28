@@ -1,0 +1,4 @@
+# F-015 (D-006): diagnostic log destination on a developer laptop.
+# The log file itself (onemuseum.log) is gitignored via *.log; this .gitkeep
+# keeps the directory present in a fresh clone. In a container LOG_FILE is
+# unset and logs go to stdout/stderr instead.

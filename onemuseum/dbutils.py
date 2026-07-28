@@ -38,6 +38,11 @@ from flask_login import current_user
 from flask import render_template, flash, session
 import re
 import uuid
+
+# F-015 (D-006): every data-layer error is logged for the administrator (with
+# the full SQL/proc + params), while the user-facing flash is kept generic so
+# that internal query text and arguments are never disclosed in the browser.
+from .diaglog import log_error
 from .config import Config
 from .entities.forms import SearchForm
 
@@ -120,7 +125,8 @@ def dbExists(aTable, aField, aValue):
             OUT = False
         return OUT
     except mysql.connector.Error as error:
-        flash(f"dbExists: Error in executing Stored Procedure : {aTable} checking {aField} = {aValue}. Error = {error}", "danger")
+        log_error("dbExists", f"Error in executing Stored Procedure : {aTable} checking {aField} = {aValue}. Error = {error}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", "danger")
         return False
     finally:
         dbClose(DBCONN)
@@ -140,7 +146,8 @@ def dbGetRowFromTable(aTable, aGUID):
             R = {"Error": "row not found"}
         return R
     except mysql.connector.Error as error:
-        flash(f"dbGetRow: Error in executing Stored Procedure : {tSQL}. Error = {error}", "danger")
+        log_error("dbGetRow", f"Error in executing Stored Procedure : {tSQL}. Error = {error}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", "danger")
         return False
     finally:
         dbClose(DBCONN)
@@ -160,7 +167,8 @@ def dbGetRow(aTable, aGUID):
             R = {"Error": "row not found"}
         return R
     except mysql.connector.Error as error:
-        flash(f"dbGetRow: Error in executing Stored Procedure : {aTable} / {aGUID}. Error = {error}", "danger")
+        log_error("dbGetRow", f"Error in executing Stored Procedure : {aTable} / {aGUID}. Error = {error}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", "danger")
         return False
     finally:
         dbClose(DBCONN)
@@ -180,7 +188,8 @@ def dbGetAll(aSQL, aArgs):
             R = C.fetchone()
         return OUT
     except mysql.connector.Error as error:
-        flash(f"dbGetAll: Error in executing Stored Procedure : {aSQL} using arguments {aArgs}. Error = {error}", "danger")
+        log_error("dbGetAll", f"Error in executing Stored Procedure : {aSQL} using arguments {aArgs}. Error = {error}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", "danger")
         return False
     finally:
         dbClose(DBCONN)
@@ -199,7 +208,8 @@ def dbGetScalar(aSQL, aArgs):
             (OUT, ) = R
         return OUT
     except mysql.connector.Error as error:
-        flash(f"dbGetScalar: Error in extracing a single value from a query: {aSQL} using arguments {aArgs}. Error = {error}", "danger")
+        log_error("dbGetScalar", f"Error in extracing a single value from a query: {aSQL} using arguments {aArgs}. Error = {error}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", "danger")
         return False
     finally:
         dbClose(DBCONN)
@@ -221,7 +231,8 @@ def dbGetDict(aSQL, aArgs):
             FIELDS = C.fetchone()
         return OUT
     except mysql.connector.Error as error:
-        flash(f"dbGetDict: Error in extracing rows and returning dict: {aSQL} using arguments {aArgs}. Error = {error}", "danger")
+        log_error("dbGetDict", f"Error in extracing rows and returning dict: {aSQL} using arguments {aArgs}. Error = {error}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", "danger")
         return False
     finally:
         dbClose(DBCONN)
@@ -239,7 +250,8 @@ def dbGetCategoryName(aGUID):
         R = C.fetchone()
         return R
     except mysql.connector.Error as error:
-        flash(f"dbGetCategoryName: Error in executing Stored Procedure : {tSQL} using argument GUID={aGUID}. Error = {error}", "danger")
+        log_error("dbGetCategoryName", f"Error in executing Stored Procedure : {tSQL} using argument GUID={aGUID}. Error = {error}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", "danger")
         return False
     finally:
         dbClose(DBCONN)
@@ -256,7 +268,8 @@ def dbExecute(aSQL, aArgs):
         return True
     except mysql.connector.Error as error:
         DBCONN.rollback()
-        flash(f"dbExecute: Error in executing SQL : {aSQL} using arguments {aArgs}. Error = {error}", "danger")
+        log_error("dbExecute", f"Error in executing SQL : {aSQL} using arguments {aArgs}. Error = {error}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", "danger")
         return False
     finally:
         dbClose(DBCONN)
@@ -275,7 +288,8 @@ def dbProcedure(aProcedure, args=()):
         DBCONN.commit()
         return results
     except mysql.connector.Error as error:
-        flash(f"dbProcedure: Error in executing Stored Procedure : {aProcedure} using arguments {args}. Error = {error}", "danger")
+        log_error("dbProcedure", f"Error in executing Stored Procedure : {aProcedure} using arguments {args}. Error = {error}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", "danger")
         return results
     finally:
         dbClose(DBCONN)
@@ -296,7 +310,8 @@ def dbProcedureDict(aProcedure, aArgs):
         DBCONN.commit()
         return results
     except mysql.connector.Error as error:
-        flash(f"dProcedureDict: Error in executing Stored Procedure : {aProcedure} using arguments {aArgs}. Error = {error}", "danger")
+        log_error("dProcedureDict", f"Error in executing Stored Procedure : {aProcedure} using arguments {aArgs}. Error = {error}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", "danger")
         return False
     finally:
         dbClose(DBCONN)
@@ -311,7 +326,8 @@ def dbExecuteWithResults(aSQL, aArgs):
         C.execute(aSQL, aArgs)
         OUT = C.fetchone()
     except mysql.connector.Error as error:
-        flash(f"dbExecuteWithResults: Error in executing SQL : {aSQL} using arguments {aArgs}. Error = {error}", "danger")
+        log_error("dbExecuteWithResults", f"Error in executing SQL : {aSQL} using arguments {aArgs}. Error = {error}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", "danger")
         OUT = False
     finally:
         dbClose(DBCONN)
@@ -333,6 +349,8 @@ def dbInsert(aTable, aFieldNames, aArgs):
         DBCONN.commit()
         print("Record inserted successfully")
     except mysql.connector.Error as error:
+        # F-015: a swallowed write error means data silently not inserted.
+        log_error("dbInsert", f"Failed to insert into {aTable}. Error = {error}")
         print("Failed to insert into table {}".format(error))
     finally:
         dbClose(DBCONN)
@@ -368,6 +386,8 @@ def dbUpdate(aTable, aFieldNames, aValues):
         C.close()
         DBCONN.commit()
     except mysql.connector.Error as err:
+        # F-015: a swallowed write error means data silently not updated.
+        log_error("dbUpdate", f"Failed to update {aTable}. Error = {err}")
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Cannot log in with this user name / password")
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
@@ -509,7 +529,8 @@ def browserDB(countSQL, browserSQL, whereSQL,
     try:
         count = dbGetScalar(countSQL, {"search": '%' + search + '%'})
     except Exception as e:
-        flash(f"browserDb: Error in obtaining result: {e} : {countSQL}", 'danger')
+        log_error("browserDb", f"Error obtaining count: {e} : {countSQL}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", 'danger')
 
     max_page = 1 if count is None or count == 0 else (count-1) // per_page + 1
     pagelist = pages(page, max_page)
@@ -521,7 +542,8 @@ def browserDB(countSQL, browserSQL, whereSQL,
     try:
         result = dbGetDict(browserSQL, args)
     except Exception as e:
-        flash(f"Exception (Browser SQL): {e} : {browserSQL}", 'danger')
+        log_error("browserDb", f"Exception (Browser SQL): {e} : {browserSQL}")
+        flash("A database error occurred while processing your request. Please try again; if it persists, contact the administrator.", 'danger')
 
     session_data('BROWSER', '', search, entity, '')
 

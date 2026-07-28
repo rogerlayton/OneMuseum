@@ -10,6 +10,19 @@ PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, os.pardir))
 load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
 
+def env_truthy(name, default=False):
+    '''Parse a boolean-ish environment variable.
+
+    Treats only 1/true/yes/on (any case) as true; everything else, including
+    an unset variable, is false. Introduced with F-015 (DIAG_LOGGING) as the
+    single place boolean flags are interpreted.
+    '''
+    raw = os.environ.get(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() in ('1', 'true', 'yes', 'on')
+
+
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
     MAIL_SERVER = os.environ.get('MAIL_SERVER')
@@ -23,6 +36,15 @@ class Config:
     MYSQLCONN_HOST = os.environ.get('MYSQLCONN_HOST')
     MYSQLCONN_PORT = os.environ.get('MYSQLCONN_PORT')
     MYSQLCONN_DATABASE = os.environ.get('MYSQLCONN_DATABASE')
+
+    # F-015 (D-006): administrator diagnostic logging.
+    #   DIAG_LOGGING  gates the verbose per-query detail only; ERRORS are
+    #                 always logged regardless. Off by default.
+    #   LOG_FILE      destination. Set to a path on a developer laptop; leave
+    #                 UNSET in a container so logs go to stderr and the
+    #                 platform captures them.
+    DIAG_LOGGING = env_truthy('DIAG_LOGGING', default=False)
+    LOG_FILE = os.environ.get('LOG_FILE')
 
 
 # Required to run. Mail settings are deliberately excluded: the app runs

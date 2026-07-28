@@ -1,8 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="content-section">
+        {% if db_down %}
+        <h1>Service temporarily unavailable</h1>
+        <p>OneMuseum cannot reach its database at the moment, so pages that
+           need collection data can't be shown. This is on our side, not
+           yours. The administrator has been notified through the system log.</p>
+        <p>Please try again shortly.</p>
+        {% else %}
         <h1>Something went wrong (500)</h1>
-        <p>We're experiencing some trouble on our end. Please try again in the near future</p>
-        <p>ERROR = {{error}}</p>
+        <p>We're experiencing some trouble on our end. Please try again in the
+           near future. The administrator has been notified through the system
+           log.</p>
+        {% endif %}
     </div>
 {% endblock content %}
