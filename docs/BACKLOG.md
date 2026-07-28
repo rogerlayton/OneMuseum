@@ -9,7 +9,7 @@ point to `BACKLOG-archive.md` for detail. Only **open** items are detailed in
 full, further down. Priority: **P1** launch-blocker · **P2** next feature work ·
 **P3** parked / later.
 
-- **Next free numbers:** **F-027**, **B-009**.
+- **Next free numbers:** **F-028**, **B-009**.
 - **Current version:** v1.0.5 (in progress).
 - **v1.0.5 focus:** F-017 (version string) done. F-018 (email confirmation)
   designed, paused for the Munirih session. F-015 (diagnostic logging)
@@ -38,7 +38,7 @@ full, further down. Priority: **P1** launch-blocker · **P2** next feature work 
 | F-010 | Test harness (D-005 L3) | P2 | later | OPEN |
 | F-013 | dbutils connection error surfacing | P2 | v1.0.5 | DONE → archive |
 | F-014 | Credential-model rebuild | P2 | before launch | OPEN |
-| F-015 | Diagnostic logging (extend `SessionLog`) | P2 | next ver | OPEN — deferred |
+| F-015 | Diagnostic logging (operational, `diaglog.py`) | P2 | v1.0.5 | DONE |
 | F-016 | Registration hardening before signup reopens | P1 | before launch | OPEN |
 | F-017 | Dynamic version string on every page | P2 | v1.0.5 | DONE → archive |
 | F-018 | Mandatory email confirmation (hard-block) | P1 | this month | OPEN — paused |
@@ -50,6 +50,7 @@ full, further down. Priority: **P1** launch-blocker · **P2** next feature work 
 | F-024 | Chenhall core filter + directory update | P2 | this month | OPEN |
 | F-025 | Archive completed `updates/` session files | P3 | housekeeping | OPEN |
 | F-026 | Reconcile stale `docs/DECISIONS.md` vs `updates/` | P3 | housekeeping | OPEN |
+| F-027 | Amendment Register — audit trail of all data changes | P2 | before launch | OPEN |
 
 ### Bugs
 
@@ -177,14 +178,7 @@ as it's scoped.*
 
 ### Deferred to next version (P2)
 
-- **F-015 — diagnostic logging.** (= F-009, Layer 2 of D-005.) Unblocked by
-  F-013; build on `DBConnectionError` rather than reinventing capture.
-  Toggleable verbosity: exception + route + SQL/proc + params. One decision to
-  settle: `dbOpen()` now raises, so DB-outage call sites in `categories/` and
-  `entities/` routes propagate to Flask's handler — decide whether an outage
-  renders a proper error page or re-raises, and log it either way.
-  **Deferred to next version — first review what `SessionLog` already does and
-  extend it rather than writing a new logger.** Status: **OPEN — deferred.**
+- **F-015 — diagnostic logging.DONE (v1.0.5) ** Built as a standalone onemuseum logger (diaglog.py), not an extension of sessiondata: that table tracks user behaviour (pages, searches, results), a different concern from operational diagnostics (exceptions, DB outages, failing queries). Errors always logged; DIAG_LOGGING gates verbose detail; stream destination by config. See D-nnn.
 
 - **F-014 — credential-model rebuild.** `onemuseum_app` lacks `LOCK TABLES` /
   `SHOW VIEW`; socket vs TCP are different grants; the container root password
@@ -249,6 +243,8 @@ as it's scoped.*
   (stops at D-005). Not a true duplicate — one is simply behind. Decide the
   single canonical location and remove/redirect the other so there's one
   decisions log. Status: **OPEN (housekeeping).**
+
+  F-027 — Amendment Register (audit trail). A generic change-log trapping every INSERT/UPDATE/DELETE across all tables — old/new values, table, row, user, timestamp — per Roger's standard practice on every schema. Confirmed absent from onemuseum2 (2026-07-28): no audit/history/amendment table among the 89 tables, and SHOW TRIGGERS is empty. Likely lost in the fresh-repo rebuild (D-004) or never carried over. Design questions for its own increment: (a) implementation — DB triggers (automatic, DB-level) vs logging inside the four stored procs (GenDetails, ChenhallDetails, GenCategories, UserEntityFavourite) vs app-level; (b) how it survives the eventual Postgres migration (F-001); (c) retention/query model. Distinct from sessiondata (user behaviour) and diaglog.py (operational diagnostics). Matters before "general use." Status: OPEN.
 
 - **B-002 — `test_menus` reference bug.** `tests/test_spec_sdf.py::test_menus`
   references `menu_spec.items` (the built-in method object) instead of
