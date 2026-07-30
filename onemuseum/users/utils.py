@@ -7,6 +7,7 @@ from itsdangerous import URLSafeTimedSerializer
 
 # from __init__ import mail
 from flask import render_template
+from ..diaglog import log_error
 
 
 def save_picture(form_picture):
@@ -35,7 +36,11 @@ def send_reset_email(user):
 
 If you did not make this request then simply ignore this email and no changes will be made.
 '''
-    mail.send(msg)
+    try:
+        mail.send(msg)
+    except Exception as error:
+        log_error("send_reset_email",
+                  f"Failed to send password-reset email to {user.email}. Error = {error}")
 
 
 def generate_confirmation_email(user_email):

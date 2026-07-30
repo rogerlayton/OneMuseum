@@ -252,6 +252,51 @@ def check_tables(results, conn):
             cursor.close()
 
 
+def check_mail(results):
+    """Report whether outbound mail (Brevo) is configured and reachable.
+
+    Mail is optional for the app to run, so nothing here FAILs — a missing or
+    unreachable mail setup is a WARN. But because email confirmation (F-018)
+    depends on it, this check makes a broken mail setup visible rather than
+    only surfacing when a user never receives a confirmation email.
+
+    Reachability is a plain TCP connect to MAIL_SERVER:587 (the SMTP relay
+    port the app uses). It does NOT authenticate and never sends mail, so it
+    cannot trip Brevo's authorised-IP protection or expose the SMTP key.
+    """
+    results.section('7. Outbound mail (Brevo)')
+
+    server = os.environ.get('MAIL_SERVER')
+    username = os.environ.get('MAIL_USERNAME')
+    password = os.environ.get('MAIL_PASSWORD')
+
+    if not (server and username and password):
+        missing = [n for n, v in (
+            ('MAIL_SERVER', server),
+            ('MAIL_USERNAME', username),
+            ('MAIL_PASSWORD', password)) if not v]
+        results.record(WARN, 'mail configured',
+                       'not set: {0}; email confirmation will not send'.format(
+                           ', '.join(missing)))
+        return
+
+    # Confirm presence without printing the secret.
+    results.record(PASS, 'MAIL_SERVER', server)
+    results.record(PASS, 'MAIL_USERNAME', username)
+    results.record(PASS, 'MAIL_PASSWORD', 'set')
+
+    # Reachability: a TCP connect to the relay port, nothing more.
+    import socket
+    port = 587
+    try:
+        with socket.create_connection((server, port), timeout=5):
+            results.record(PASS, 'SMTP relay reachable',
+                           '{0}:{1} (TCP connect only; not authenticated)'.format(server, port))
+    except OSError as exc:
+        results.record(WARN, 'SMTP relay reachable',
+                       'cannot reach {0}:{1} - {2}'.format(server, port, exc))
+
+
 def check_katex(results):
     """Verify KaTeX maths rendering actually works.
 
@@ -262,7 +307,7 @@ def check_katex(results):
 
     The fix is a native katex on PATH:  npm install -g katex
     """
-    results.section('7. Maths rendering (KaTeX)')
+    results.section('8. Maths rendering (KaTeX)')
 
     try:
         import markdown
@@ -325,6 +370,7 @@ def main():
         results.record(FAIL, 'connection attempted',
                        'skipped; database driver did not import')
 
+    check_mail(results)
     check_katex(results)
 
     print('')

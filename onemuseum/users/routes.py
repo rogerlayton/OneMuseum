@@ -6,6 +6,7 @@ from datetime import timedelta
 from ..users.forms import SignUpForm, SignInForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from ..users.utils import save_picture, send_reset_email, generate_confirmation_email
 from ..dbutils import create_session, session_data, dbProcedure, dbInsert, dbUpdate, dbExecuteWithResults
+from ..diaglog import log_error
 from itsdangerous import URLSafeTimedSerializer
 from itsdangerous.exc import BadSignature
 from datetime import datetime
@@ -42,7 +43,11 @@ def signup():
         @copy_current_request_context
         def send_email(message):
             with current_app.app_context():
-                mail.send(message)
+                try:
+                    mail.send(message)
+                except Exception as error:
+                    log_error("signup.send_email",
+                              f"Failed to send confirmation email to {form.email.data}. Error = {error}")
 
         # Send an email to the user that they have been registered
         msg = generate_confirmation_email(form.email.data)
@@ -89,6 +94,12 @@ def signin():
         user = user_get_by_email(form.email.data)
         # if the user was found then check if the password (encyrpted) are the same
         if user and bcrypt.check_password_hash(user.password, form.password.data):
+            # F-018 (B-005): block sign-in until the email address is confirmed.
+            # The confirmation flag is set only by the /confirm/<token> route.
+            if not user.email_confirmed:
+                flash('Please confirm your email address before signing in. '
+                      'Check your inbox for the confirmation link.', 'warning')
+                return render_template('signin.html', title='Sign In', form=form)
             # set the duration of the cookies to 30 minutes, to ensure that sessions timeout quickly
             # can also use browser password memory to move the remembered usercode and password when logging in
             login_user(user, remember=form.remember.data, duration=timedelta(minutes=30))
@@ -171,7 +182,11 @@ def resend_email_confirmation():
     @copy_current_request_context
     def send_email(email_message):
         with current_app.app_context():
-            mail.send(email_message)
+            try:
+                mail.send(email_message)
+            except Exception as error:
+                log_error("resend_email_confirmation.send_email",
+                          f"Failed to resend confirmation email to {current_user.email}. Error = {error}")
 
     # Send an email to confirm the user's email address
     message = generate_confirmation_email(current_user.email)
